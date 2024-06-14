@@ -105,3 +105,24 @@ deploy:
   repo: https://github.com/Tippye/tippye.github.io
   branch: main
   name: Tippye
+
+# 追番列表
+bangumi:
+  enable: true
+  source: bili
+  bgmInfoSource: 'bgmApi'
+  path:
+  vmid: 304428473
+  title: '追番列表'
+  quote: '生命不息，追番不止！'
+  show: 1
+  lazyload: true
+  srcValue: '__image__'
+  lazyloadAttrName: 'data-src=__image__'
+  showMyComment: false
+  pagination: false
+  order: latest
+
+## Live2D看板娘
+live2d:
+  enable: true

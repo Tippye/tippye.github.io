@@ -1,6 +1,6 @@
 ---
 title: Link Prediction of Textual Edge Graphs
-date: 2024-06-14T18:44:59+08:00
+date: 2024-06-13T20:04:59+08:00
 categories: 论文精读
 tags:
     - 复杂网络
