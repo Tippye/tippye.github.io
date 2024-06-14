@@ -1,0 +1,799 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Tippy">
+  <meta name="keywords" content="Tippy">
+  
+    <meta name="description" content="BA无标度网络模型 BA无标度网络模型构造算法  增长:从一个具有\(m_0\)个节点的连通网络开始,每次引人一个新的节点并且连到\(m\)个已存在的节点上,这里\(m \le m_0\)。 优先连接:一个新节点与一个已经存在的节点\(i\)相连接的概率\(\prod_i\),与节点\(i\)的度\(k_i\),之间满足如下关系: \(\prod_i &#x3D; \frac{k_i}{\sum_jk_j}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BA模型与幂绿度分布">
+<meta property="og:url" content="https://tippye.github.io/2024/05/17/BA%E6%A8%A1%E5%9E%8B%E4%B8%8E%E5%B9%82%E7%BB%BF%E5%BA%A6%E5%88%86%E5%B8%83/">
+<meta property="og:site_name" content="Tippyの博客站">
+<meta property="og:description" content="BA无标度网络模型 BA无标度网络模型构造算法  增长:从一个具有\(m_0\)个节点的连通网络开始,每次引人一个新的节点并且连到\(m\)个已存在的节点上,这里\(m \le m_0\)。 优先连接:一个新节点与一个已经存在的节点\(i\)相连接的概率\(\prod_i\),与节点\(i\)的度\(k_i\),之间满足如下关系: \(\prod_i &#x3D; \frac{k_i}{\sum_jk_j}">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-05-16T22:12:07.000Z">
+<meta property="article:modified_time" content="2024-06-14T11:21:54.664Z">
+<meta property="article:author" content="Tippy">
+<meta property="article:tag" content="复杂网络">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>BA模型与幂绿度分布 - Tippyの博客站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"tippye.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Tippyの博客站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="BA模型与幂绿度分布"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Tippy
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-05-17 06:12" pubdate>
+          2024年5月17日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">BA模型与幂绿度分布</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2024年6月14日 晚上
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="ba无标度网络模型">BA无标度网络模型</h1>
+<h2 id="ba无标度网络模型构造算法">BA无标度网络模型构造算法</h2>
+<ol type="1">
+<li><p>增长:从一个具有<span
+class="math inline">\(m_0\)</span>个节点的连通网络开始,每次引人一个新的节点并且连到<span
+class="math inline">\(m\)</span>个已存在的节点上,这里<span
+class="math inline">\(m \le m_0\)</span>。</p></li>
+<li><p>优先连接:一个新节点与一个已经存在的节点<span
+class="math inline">\(i\)</span>相连接的概率<span
+class="math inline">\(\prod_i\)</span>,与节点<span
+class="math inline">\(i\)</span>的度<span
+class="math inline">\(k_i\)</span>,之间满足如下关系: <span
+class="math inline">\(\prod_i = \frac{k_i}{\sum_jk_j}\)</span>​</p></li>
+</ol>
+<h2 id="ba无标度网络的实现">BA无标度网络的实现</h2>
+<ol type="1">
+<li>先使用<code>networkx</code>库创建一个有<span
+class="math inline">\(m_0\)</span>个节点的完全图</li>
+<li>循环添加节点直到图的节点到<span class="math inline">\(N\)</span>个
+<ol type="1">
+<li>计算选择每个节点的概率：这里使用<code>random.choice</code>在<code>tmp_nodes</code>进行选择。对于<code>tmp_nodes</code>，假设节点<code>i</code>的度为<code>ki</code>,则往<code>tmp_nodes</code>中添加<code>ki</code>个<code>i</code>,最后选择到<code>i</code>的概率即可变为<span
+class="math inline">\(\frac{k_i}{\sum_jk_j}\)</span>。对应代码为<code>tmp_nodes = [node for node, degree in self.G.degree() for _ in range(degree)]</code></li>
+<li>选择<span
+class="math inline">\(m\)</span>个节点，因为上一步随机选择可能包括重复的节点，所以要使用<code>set</code>去重后重新选择直到选出来<span
+class="math inline">\(m\)</span>个不重复的节点</li>
+<li>将新选择出来的<span
+class="math inline">\(m\)</span>个节点与新节点连接，被选择的节点度都会<span
+class="math inline">\(+1\)</span>，所以为了下一次新增节点，将这<span
+class="math inline">\(m\)</span>个节点添加到<code>tmp_nodes</code>。新节点的度肯定为<span
+class="math inline">\(m\)</span>，所以往<code>tmp_nodes</code>添加<span
+class="math inline">\(m\)</span>​个新节点</li>
+</ol></li>
+<li>到此就实现了一个BA无标度网络</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">BAGraph</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, m0, N, m</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        构建BA模型</span><br><span class="hljs-string">        </span><br><span class="hljs-string">        :param m0: 初始有几个节点</span><br><span class="hljs-string">        :param N:  一共有几个节点</span><br><span class="hljs-string">        :param m:  每次选几个节点</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-keyword">assert</span> m &gt;= m0, <span class="hljs-string">&#x27;m0必须小于m&#x27;</span><br>        <span class="hljs-keyword">assert</span> N &gt;= m0, <span class="hljs-string">&#x27;N必须大于m0&#x27;</span><br>        self.m0 = m0<br>        self.N = N<br>        self.m = m<br>        self.G = nx.complete_graph(m0)<br>        self.pk = <span class="hljs-literal">None</span><br>        self.h = <span class="hljs-literal">None</span><br><br>        <span class="hljs-comment"># 当前节点数</span><br>        n = m0<br>        <span class="hljs-comment"># 每个节点的度为多少就放几个对应节点，这样可以等价于计算度的概率</span><br>        tmp_nodes = [node <span class="hljs-keyword">for</span> node, degree <span class="hljs-keyword">in</span> self.G.degree() <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(degree)]<br>        <span class="hljs-keyword">while</span> n &lt; N:<br>            new_node = n<br>            self.G.add_node(new_node)<br><br>            <span class="hljs-comment"># 选择m个不重复的节点</span><br>            <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(tmp_nodes) == <span class="hljs-number">0</span>:<br>                <span class="hljs-comment"># m0=1时，第一次tmp_nodes会为空，手动设置choice_nodes放0号节点，否则random.choices会报错</span><br>                choice_nodes = <span class="hljs-built_in">set</span>([<span class="hljs-number">0</span>])<br>            <span class="hljs-keyword">else</span>:<br>                choice_nodes = <span class="hljs-built_in">set</span>(random.choices(tmp_nodes, k=m))<br>            <span class="hljs-keyword">while</span> <span class="hljs-built_in">len</span>(choice_nodes) &lt; m:<br>                choice_nodes.add(random.choice(tmp_nodes))<br><br>            <span class="hljs-keyword">for</span> node <span class="hljs-keyword">in</span> choice_nodes:<br>                self.G.add_edge(new_node, node)<br><br>            tmp_nodes.extend(choice_nodes)<br>            tmp_nodes.extend([new_node] * <span class="hljs-built_in">len</span>(choice_nodes))<br><br>            n += <span class="hljs-number">1</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_pk</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        计算度分布</span><br><span class="hljs-string">        </span><br><span class="hljs-string">        :return:</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-keyword">if</span> self.pk <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>            pk = np.zeros(self.N)<br>            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(self.N):<br>                pk[self.G.degree[i]] += <span class="hljs-number">1</span><br>            self.pk = pk / self.N<br>        <span class="hljs-keyword">return</span> self.pk<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_h</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        计算幂律分布</span><br><span class="hljs-string">        </span><br><span class="hljs-string">        $h = \\\\frac&#123;pk&#125;&#123;2*m^2&#125;$</span><br><span class="hljs-string">        :return:</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-keyword">if</span> self.h <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>            pk = self.get_pk()<br>            self.h = pk / (<span class="hljs-number">2</span> * self.m ** <span class="hljs-number">2</span>)<br>        <span class="hljs-keyword">return</span> self.h<br></code></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/tippye/PicCloud@master/uPic/2024/05/03/image-20240503162714960.png" srcset="/img/loading.gif" lazyload
+alt="BA模型的演化" />
+<figcaption aria-hidden="true">BA模型的演化</figcaption>
+</figure>
+<h1 id="幂律度分布">幂律度分布</h1>
+<ul>
+<li><p>BA模型具有幂律度分布且与参数<span
+class="math inline">\(m\)</span>无关。下图显示的是双对数坐标下,包含<span
+class="math inline">\(N=t+m_0=300 000\)</span>个节点的BA
+网络的度分布<span class="math inline">\(P(k)\)</span>,并分别考虑4
+个不同的<span
+class="math inline">\(m\)</span>值。图中的虚线对应的是斜率为<span
+class="math inline">\(-2.9\)</span>的直线,而四种情形的度分布都可以用幂指数<span
+class="math inline">\(\gamma_{BA} =2.9士0.1\)</span>
+的幂律分布来表示。</p>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/tippye/PicCloud@master/uPic/2024/05/17/image-20240517134936555.png" srcset="/img/loading.gif" lazyload
+alt="不同m值情形的BA模型的度分布" />
+<figcaption aria-hidden="true">不同m值情形的BA模型的度分布</figcaption>
+</figure>
+<p>上述实现代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs python">N = <span class="hljs-number">30000</span>               <span class="hljs-comment"># 设置图的总结点数，书上给的是30w，这里为了运行时间使用了3w</span><br>sample = <span class="hljs-number">100</span>            <span class="hljs-comment"># 样本数，对于每个m值，运行处100个图然后去均值作为度分布</span><br>m_list = [<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">7</span>]   <span class="hljs-comment"># 不同的m值</span><br>PK = np.zeros(<span class="hljs-built_in">len</span>(m_list) * N).reshape(<span class="hljs-built_in">len</span>(m_list), N)	<span class="hljs-comment"># 用于存放度分布结果，因为有4个m值所以有4行，每行的长度为总节点数（度的取值范围为1～N)</span><br>H = np.zeros(<span class="hljs-built_in">len</span>(m_list) * N).reshape(<span class="hljs-built_in">len</span>(m_list), N)		<span class="hljs-comment"># 用于存放幂律度分布结果</span><br><span class="hljs-keyword">with</span> tqdm(total=sample * <span class="hljs-built_in">len</span>(m_list)) <span class="hljs-keyword">as</span> pbar:<br>    <span class="hljs-keyword">for</span> i, m <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(m_list):<br>        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(sample):<br>            G = BAGraph(m0=m, N=N, m=m)<br>            PK[i] += G.get_pk()<br>            H[i] += G.get_h()<br>            pbar.update(<span class="hljs-number">1</span>)<br>        PK[i] /= sample<br>        H[i] /= sample<br><br><span class="hljs-comment"># 后面是作图</span><br>plt.figure(figsize=(<span class="hljs-number">8</span>, <span class="hljs-number">16</span>))<br>plt.title(<span class="hljs-string">&quot;不同m值情形的BA模型的度分布&quot;</span>)<br>color_list = [<span class="hljs-string">&#x27;red&#x27;</span>, <span class="hljs-string">&#x27;blue&#x27;</span>, <span class="hljs-string">&#x27;green&#x27;</span>, <span class="hljs-string">&#x27;orange&#x27;</span>]<br><span class="hljs-keyword">for</span> i, m <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(m_list):<br>    plt.scatter(<span class="hljs-built_in">range</span>(N), PK[i], s=<span class="hljs-number">10</span>, label=<span class="hljs-string">f&#x27;m=<span class="hljs-subst">&#123;m&#125;</span>&#x27;</span>, color=color_list[i])<br>plt.xlabel(<span class="hljs-string">&#x27;$k$&#x27;</span>)<br>plt.xscale(<span class="hljs-string">&#x27;log&#x27;</span>)<br>plt.ylabel(<span class="hljs-string">&#x27;$P(k)$&#x27;</span>)<br>plt.yscale(<span class="hljs-string">&#x27;log&#x27;</span>)<br>plt.legend(loc=<span class="hljs-string">&#x27;lower right&#x27;</span>)<br><br>ax = plt.axes([<span class="hljs-number">0.6</span>, <span class="hljs-number">0.58</span>, <span class="hljs-number">0.3</span>, <span class="hljs-number">0.3</span>])<br>plt.title(<span class="hljs-string">&quot;不同m值情形的BA模型的幂律度分布&quot;</span>)<br><span class="hljs-keyword">for</span> i, k <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(m_list):<br>    ax.scatter(<span class="hljs-built_in">range</span>(N), H[i], s=<span class="hljs-number">10</span>, label=<span class="hljs-string">f&#x27;m=<span class="hljs-subst">&#123;k&#125;</span>&#x27;</span>,color=color_list[i])<br>    <br>ax.plot(<span class="hljs-built_in">range</span>(N), np.power(np.arange(N).astype(<span class="hljs-built_in">float</span>), -<span class="hljs-number">3</span>), label=<span class="hljs-string">&#x27;$k^&#123;-3&#125;$&#x27;</span>, color=<span class="hljs-string">&#x27;red&#x27;</span>, linestyle=<span class="hljs-string">&#x27;--&#x27;</span>)<br>ax.legend(loc=<span class="hljs-string">&#x27;upper right&#x27;</span>)<br>ax.<span class="hljs-built_in">set</span>(ylabel=<span class="hljs-string">&#x27;$p(k)/2m^2$&#x27;</span>, xlabel=<span class="hljs-string">&#x27;$k$&#x27;</span>, yscale=<span class="hljs-string">&#x27;log&#x27;</span>, xscale=<span class="hljs-string">&#x27;log&#x27;</span>)<br><br>plt.savefig(<span class="hljs-string">&#x27;不同m的幂律度分布图.png&#x27;</span>, dpi=<span class="hljs-number">300</span>)<br></code></pre></td></tr></table></figure></li>
+<li><p>BA 模型具有幂律度分布且与网络规模<span
+class="math inline">\(N\)</span>无关。下图显示的是固定<span
+class="math inline">\(m=m_0=5\)</span>时BA模型的度分布<span
+class="math inline">\(P(k)\)</span>，网络规模分别为：N=100 000、150
+000及200 000。</p>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/tippye/PicCloud@master/uPic/2024/05/17/image-20240517135929909.png" srcset="/img/loading.gif" lazyload
+alt="不同N值情形的BA模型的度分布(m=5)" />
+<figcaption
+aria-hidden="true">不同N值情形的BA模型的度分布(m=5)</figcaption>
+</figure>
+<p>实现代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python">N_list = [<span class="hljs-number">100000</span>,<span class="hljs-number">150000</span>,<span class="hljs-number">200000</span>]								<span class="hljs-comment"># 不同N值列表</span><br>m = <span class="hljs-number">5</span>																					<span class="hljs-comment"># 固定m值</span><br>PK = [np.zeros(n) <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> N_list]<br>H = PK.copy()<br><span class="hljs-keyword">with</span> tqdm(total=sample * <span class="hljs-built_in">len</span>(N_list)) <span class="hljs-keyword">as</span> pbar:<br>    <span class="hljs-keyword">for</span> i, n <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(N_list):<br>        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(sample):<br>            G = BAGraph(m0=m, N=n, m=m)<br>            PK[i] += G.get_pk()<br>            H[i] += G.get_h()<br>            pbar.update(<span class="hljs-number">1</span>)<br>        PK[i] /= sample<br>        H[i] /= sample<br>        <br>plt.figure(figsize=(<span class="hljs-number">8</span>, <span class="hljs-number">16</span>))<br>plt.title(<span class="hljs-string">f&quot;不同N值情形的BA模型的度分布(m=<span class="hljs-subst">&#123;m&#125;</span>)&quot;</span>)<br>color_list = [<span class="hljs-string">&#x27;red&#x27;</span>, <span class="hljs-string">&#x27;blue&#x27;</span>, <span class="hljs-string">&#x27;green&#x27;</span>, <span class="hljs-string">&#x27;orange&#x27;</span>]<br><span class="hljs-keyword">for</span> i, n <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(N_list):<br>    plt.scatter(<span class="hljs-built_in">range</span>(n), PK[i], s=<span class="hljs-number">10</span>, label=<span class="hljs-string">f&#x27;n=<span class="hljs-subst">&#123;n&#125;</span>&#x27;</span>, color=color_list[i])<br>plt.xlabel(<span class="hljs-string">&#x27;$k$&#x27;</span>)<br>plt.xscale(<span class="hljs-string">&#x27;log&#x27;</span>)<br>plt.ylabel(<span class="hljs-string">&#x27;$P(k)$&#x27;</span>)<br>plt.yscale(<span class="hljs-string">&#x27;log&#x27;</span>)<br>plt.legend(loc=<span class="hljs-string">&#x27;lower right&#x27;</span>)<br></code></pre></td></tr></table></figure></li>
+<li><p>度分布计算函数和幂律度分布计算函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">BAGraph</span>:<br>    ...<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_pk</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        计算度分布</span><br><span class="hljs-string">        </span><br><span class="hljs-string">        :return:</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 度分布即为统计每个度的节点占总节点的分数。</span><br>        <span class="hljs-keyword">if</span> self.pk <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>            pk = np.zeros(self.N)		<span class="hljs-comment"># 度的取值范围只能是1～N，不取零是因为BA模型肯定是连通图</span><br>            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(self.N):	<span class="hljs-comment"># 遍历每个节点，将pk作为哈希表</span><br>                pk[self.G.degree[i]] += <span class="hljs-number">1</span><br>            self.pk = pk / self.N		<span class="hljs-comment"># 计算出pk后要统一除以节点总数才为度分布的概率</span><br>        <span class="hljs-keyword">return</span> self.pk<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_h</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        计算幂律分布</span><br><span class="hljs-string">        </span><br><span class="hljs-string">        $h = \\\\frac&#123;pk&#125;&#123;2*m^2&#125;$</span><br><span class="hljs-string">        :return:</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-keyword">if</span> self.h <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>            pk = self.get_pk()<br>            self.h = pk / (<span class="hljs-number">2</span> * self.m ** <span class="hljs-number">2</span>)	<span class="hljs-comment"># 参考《网络科学导论》，幂律度分布为度分布/2m^2</span><br>        <span class="hljs-keyword">return</span> self.h<br></code></pre></td></tr></table></figure></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%A4%8D%E6%9D%82%E7%BD%91%E7%BB%9C/" class="print-no-link">#复杂网络</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>BA模型与幂绿度分布</div>
+      <div>https://tippye.github.io/2024/05/17/BA模型与幂绿度分布/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Tippy</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年5月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/05/19/Bipartite%20network%20projection%20and%20personal%20recommendation/" title="Bipartite network projection and personal recommendation">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Bipartite network projection and personal recommendation</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/05/09/%E5%A6%82%E4%BD%95%E8%AF%BB%E4%B8%80%E7%AF%87%E8%AE%BA%E6%96%87/" title="如何读一篇论文">
+                        <span class="hidden-mobile">如何读一篇论文</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

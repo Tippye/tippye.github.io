@@ -16,24 +16,30 @@
   <meta name="author" content="Tippy">
   <meta name="keywords" content="Tippy">
   
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="Link Prediction of Textual Edge Graphs    摘要 文本边缘图(TEG, 边缘上具有富文本的网络)封装了大量关系和上下文信息。但是现有的研究方法分为基于GNN和基于LLM两类，都有些问题。本文提出一种新的框架(LINK2DOC)专门用于TEG上进行链路预测(预测两个节点之间是否存在链接)。 graph LR     A((&quot;A&lt;br&gt;文本">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://tippye.github.io/2024/06/14/hello-world/">
+<meta property="og:title" content="Link Prediction of Textual Edge Graphs">
+<meta property="og:url" content="https://tippye.github.io/2024/06/13/Link%20Prediction%20of%20Textual%20Edge%20Graphs/">
 <meta property="og:site_name" content="Tippyの博客站">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="Link Prediction of Textual Edge Graphs    摘要 文本边缘图(TEG, 边缘上具有富文本的网络)封装了大量关系和上下文信息。但是现有的研究方法分为基于GNN和基于LLM两类，都有些问题。本文提出一种新的框架(LINK2DOC)专门用于TEG上进行链路预测(预测两个节点之间是否存在链接)。 graph LR     A((&quot;A&lt;br&gt;文本">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-06-13T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-06-13T16:00:00.000Z">
+<meta property="og:image" content="https://img.shields.io/badge/arxiv-B31B1B?style=for-the-badge&amp;logo=arxiv&amp;logoColor=ffffff">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Tippye/PicCloud@master/uPic/image-20240613123859383.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Tippye/PicCloud@master/uPic/image-20240613183725337.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Tippye/PicCloud@master/uPic/image-20240613182533646.png">
+<meta property="article:published_time" content="2024-06-13T04:04:59.000Z">
+<meta property="article:modified_time" content="2024-06-14T11:11:26.009Z">
 <meta property="article:author" content="Tippy">
-<meta property="article:tag" content="Tippy">
+<meta property="article:tag" content="复杂网络">
+<meta property="article:tag" content="NLP">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img.shields.io/badge/arxiv-B31B1B?style=for-the-badge&amp;logo=arxiv&amp;logoColor=ffffff">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Hello World - Tippyの博客站</title>
+  <title>Link Prediction of Textual Edge Graphs - Tippyの博客站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +205,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Hello World"></span>
+            <span id="subtitle" data-typed-text="Link Prediction of Textual Edge Graphs"></span>
           
         </div>
 
@@ -215,8 +221,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-06-14 00:00" pubdate>
-          2024年6月14日 凌晨
+        <time datetime="2024-06-13 12:04" pubdate>
+          2024年6月13日 中午
         </time>
       </span>
     
@@ -227,7 +233,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          18 字
+          1.3k 字
         
       </span>
     
@@ -238,7 +244,7 @@
         
         
         
-          1 分钟
+          11 分钟
         
       </span>
     
@@ -286,6 +292,61 @@
 <div class="category-list">
   
   
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="论文精读"
+        id="heading-df62756d5c4762ba9cc7d57778841b59" role="tab" data-toggle="collapse" href="#collapse-df62756d5c4762ba9cc7d57778841b59"
+        aria-expanded="true"
+      >
+        论文精读
+        <span class="list-group-count">(3)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-df62756d5c4762ba9cc7d57778841b59"
+           role="tabpanel" aria-labelledby="heading-df62756d5c4762ba9cc7d57778841b59">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/05/19/Bipartite%20network%20projection%20and%20personal%20recommendation/" title="Bipartite network projection and personal recommendation"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Bipartite network projection and personal recommendation</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/06/13/Link%20Prediction%20of%20Textual%20Edge%20Graphs/" title="Link Prediction of Textual Edge Graphs"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">Link Prediction of Textual Edge Graphs</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/05/09/%E5%A6%82%E4%BD%95%E8%AF%BB%E4%B8%80%E7%AF%87%E8%AE%BA%E6%96%87/" title="如何读一篇论文"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">如何读一篇论文</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
 </div>
 
 
@@ -298,34 +359,172 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Hello World</h1>
+            <h1 id="seo-header">Link Prediction of Textual Edge Graphs</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2024年6月14日 晚上
+                  
+                
+              </p>
             
             
               <div class="markdown-body">
                 
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very
-first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for
-more info. If you get any problems when using Hexo, you can find the
-answer in <a
-target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or
-you can ask me on <a
-target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="quick-start">Quick Start</h2>
-<h3 id="create-a-new-post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
-<p>More info: <a
-target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="run-server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="generate-static-files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-<p>More info: <a
-target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="deploy-to-remote-sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-<p>More info: <a
-target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+                <h1 id="link-prediction-of-textual-edge-graphs">Link Prediction of
+Textual Edge Graphs</h1>
+<center>
+<a target="_blank" rel="noopener" href='https://arxiv.org/abs/2405.16606v1'><img src="https://img.shields.io/badge/arxiv-B31B1B?style=for-the-badge&amp;logo=arxiv&amp;logoColor=ffffff" srcset="/img/loading.gif" lazyload referrerpolicy="no-referrer"></a>
+</center>
+<h2 id="摘要">摘要</h2>
+<p>文本边缘图(TEG,
+边缘上具有富文本的网络)<strong>封装了大量关系和上下文信息</strong>。但是现有的研究方法分为<strong>基于GNN</strong>和<strong>基于LLM</strong>两类，都有些问题。本文提出一种新的框架(<strong>LINK2DOC</strong>)专门用于TEG上进行<strong>链路预测</strong>(预测两个节点之间是否存在链接)。</p>
+<pre><code class=" mermaid">graph LR
+    A((&quot;A&lt;br&gt;文本描述: Node A details&quot;)) -- &quot;文本描述: Edge AB details&quot; --- B((&quot;B&lt;br&gt;文本描述: Node B details&quot;))
+    A -- &quot;文本描述: Edge AC details&quot; --- C((&quot;C&lt;br&gt;文本描述: Node C details&quot;))
+    B -- &quot;文本描述: Edge BD details&quot; --- D((&quot;D&lt;br&gt;文本描述: Node D details&quot;))
+    C -- &quot;文本描述: Edge CD details&quot; --- D
+
+文本边缘图
+
+</code></pre>
+<h3 id="创新点">创新点</h3>
+<p>LINK2DOC
+通过将节点对之间的邻居信息<strong>总结为类人类编写的文档</strong>，并<strong>利用自监督学习模型</strong>增强GNN的文本理解能力。</p>
+<h3 id="结论">结论</h3>
+<p>在四个真实世界数据集上的实验表明，LINK2DOC
+在链接预测任务中的表现优于现有的边缘感知GNNs和预训练语言模型。</p>
+<h2 id="研究问题">研究问题</h2>
+<ul>
+<li><p>基于LLM的问题：容易丢失图形的结构信息</p></li>
+<li><p>基于GNN的问题：无法解释TEG中可能发生的复杂交互</p></li>
+<li><p>研究目标：提出一种新框架(LINK2DOC)，旨在解决现有方法的不足，更好的进行TEG上的链路预测。</p></li>
+</ul>
+<h2 id="研究方法">研究方法</h2>
+<ul>
+<li><p>LINK2DOC</p>
+<ul>
+<li><strong>连贯的文档组合</strong>，用通俗易懂的人话来描述节点对之间局部的拓扑信息，保留语义和拓扑信息</li>
+<li><strong>自监督学习模块</strong>，用自监督学习模型增强GNN语言处理能力</li>
+</ul></li>
+<li><p>转换图</p>
+<ul>
+<li>用于捕捉和表示TEG中两个节点之间的所有可能的路径</li>
+<li><img src="https://cdn.jsdelivr.net/gh/Tippye/PicCloud@master/uPic/image-20240613123859383.png" srcset="/img/loading.gif" lazyload alt="image-20240613123859383" style="zoom:50%;" /></li>
+<li><strong>定义：</strong>对于TEG中的任意两个实体(节点) <span
+class="math inline">\((s, t)\)</span>,从<span
+class="math inline">\(s\)</span>到<span
+class="math inline">\(t\)</span>的所有路径共同形成一个<span
+class="math inline">\((s, t)\)</span>的转换图，用<span
+class="math inline">\(G(s, t)\)</span>表示。分别用<span
+class="math inline">\(m\)</span>和<span
+class="math inline">\(n\)</span>表示<span
+class="math inline">\(G(s,t)\)</span>中的节点数和边数。路径长度上限可以用整数<span
+class="math inline">\(K\)</span>来设定，通常可以将其设置为TEG的直径。</li>
+<li>构建方法：
+<ol type="1">
+<li>广度优先搜索(BFS)
+<ul>
+<li>从源节点<span
+class="math inline">\(s\)</span>开始，执行BFS来探索到目标节点<span
+class="math inline">\(t\)</span>的所有路径</li>
+<li>BFS的深度可以设置为转换图直径的一半，以确保覆盖到足够的局部领域信息</li>
+</ul></li>
+<li>提取局部结构
+<ul>
+<li>提取源节点<span class="math inline">\(s\)</span>和目标节点<span
+class="math inline">\(t\)</span>的局部结构，分别记为<span
+class="math inline">\(G_s\)</span>和<span
+class="math inline">\(G_t\)</span>​
+<ul>
+<li>分别对源节点<span class="math inline">\(s\)</span>和目标节点<span
+class="math inline">\(t\)</span>进行BFS，提取他们各自的深度为<span
+class="math inline">\(L\)</span>的局部结构，</li>
+<li><span class="math inline">\(s\)</span>进行BFS时，深度小于等于<span
+class="math inline">\(L\)</span>(为了<span
+class="math inline">\(G_s\)</span>和<span
+class="math inline">\(G_t\)</span>都能各自覆盖其近邻信息以及足够数量的节点，<span
+class="math inline">\(L\)</span>通常设置为<span
+class="math inline">\(G(s,t)\)</span>直径的一半)就把节点染橙色(仅论文示意图)，<span
+class="math inline">\(t\)</span>同理染成蓝色，两边都染色就成了两种颜色的节点</li>
+</ul></li>
+<li><figure>
+<img
+src="https://cdn.jsdelivr.net/gh/Tippye/PicCloud@master/uPic/image-20240613125659758.png" srcset="/img/loading.gif" lazyload
+alt="image-20240613125659758" />
+<figcaption aria-hidden="true">image-20240613125659758</figcaption>
+</figure></li>
+</ul></li>
+<li>处理隐藏边
+<ul>
+<li>在BFS树中，某些边可能不会被直接探索到（例如，由于搜索深度限制或边不存在于BFS树中）。</li>
+<li>识别这些隐藏边，并在转换图中适当地表示它们，以确保转换图的完整性。</li>
+</ul></li>
+<li>合并转换图
+<ul>
+<li>将<span class="math inline">\(G_s\)</span>和<span
+class="math inline">\(G_t\)</span>合并为一个完整的转换图<span
+class="math inline">\(G(s, t)\)</span>,这个图包含了从<span
+class="math inline">\(s\)</span> 到<span
+class="math inline">\(t\)</span> 的所有路径和边</li>
+</ul></li>
+</ol></li>
+</ul></li>
+<li><p>转换文档构建</p>
+<ul>
+<li><p>用于整合语义和拓扑信息</p></li>
+<li><figure>
+<img
+src="https://cdn.jsdelivr.net/gh/Tippye/PicCloud@master/uPic/x3.png" srcset="/img/loading.gif" lazyload
+alt="Refer to caption" />
+<figcaption aria-hidden="true">Refer to caption</figcaption>
+</figure></li>
+<li><p>构建方法：</p>
+<ol type="1">
+<li><p>先得到上一步的转换图<span
+class="math inline">\(G(s,t)\)</span></p></li>
+<li><p>使用前序遍历来分别遍历<span
+class="math inline">\(G_s\)</span>和<span
+class="math inline">\(G_t\)</span>​中的节点，并为每个节点分配文档中的章节和小节序号，如下图</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Tippye/PicCloud@master/uPic/image-20240613183725337.png" srcset="/img/loading.gif" lazyload alt="image-20240613183725337" style="zoom: 33%;" /></p></li>
+<li><p>识别并添加那些在局部结构中不直接出现，但在转换图中存在的隐藏边</p></li>
+<li><p>识别 <span class="math inline">\(G_s\)</span>和 <span
+class="math inline">\(G_t\)</span>
+中的共享节点，这些节点在转换文档中需要有交叉引用，以显示它们在不同局部结构中的连接</p></li>
+<li><p>最终将<span class="math inline">\(s\)</span>和<span
+class="math inline">\(t\)</span>的局部结构段落合并为一个统一的文档，确保文档不仅描述孤立的节点，还突出了他们之间的相互连接。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Tippye/PicCloud@master/uPic/image-20240613182533646.png" srcset="/img/loading.gif" lazyload alt="image-20240613182533646" style="zoom:33%;" /></p></li>
+</ol></li>
+</ul></li>
+<li><p>自监督学习模块</p>
+<ul>
+<li>使用预训练模型PLM来处理转换文档<span
+class="math inline">\(d_{(s,t)}\)</span>，以保持文本的完整性，得到文档的潜在表示<span
+class="math inline">\(\widetilde h_{(s,t)} =
+f_{LM}(d_{(s,t)})\)</span></li>
+<li>通过GNN处理转换图中的图结构和边文本信息，生成表示<span
+class="math inline">\(h_{(s,t)} = g(f_{GNN}(G_s) \oplus
+f_{GNN}(G_t))\)</span></li>
+<li>使用加权交叉熵损失对齐<span class="math inline">\(\widetilde
+h\)</span>和<span class="math inline">\(h\)</span>，<span
+class="math inline">\(\ell_{KD} = -\mathbb{E}\left[\log
+\frac{\exp\left(sim(\widetilde h_{(s, t)}, h_{(s,
+t)})/\tau\right)}{\sum^K_{k=1}\exp\left(sim(h_{(s, t)}, h_{(s,
+k)})/\tau\right)}\right]\)</span></li>
+<li>最终用于预测边属性图上的链接的LLM增强表示学习的总体目标写为<span
+class="math inline">\(\ell = \lambda_1 \ell_{KD} + \lambda_2
+\ell_{LP}\)</span>,其中<span
+class="math inline">\(\lambda_1\)</span>和<span
+class="math inline">\(\lambda_2\)</span>是超参数</li>
+</ul></li>
+<li><p>时间复杂度</p>
+<ul>
+<li>训练：<span class="math inline">\(O(2N+E+P^2+|E| \cdot
+f+N^2)\)</span></li>
+<li>推理：<span class="math inline">\(O(|E| \cdot f + N^2)\)</span></li>
+</ul></li>
+</ul>
 
                 
               </div>
@@ -334,6 +533,36 @@ target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/" class="category-chain-item">论文精读</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%A4%8D%E6%9D%82%E7%BD%91%E7%BB%9C/" class="print-no-link">#复杂网络</a>
+      
+        <a href="/tags/NLP/" class="print-no-link">#NLP</a>
+      
+    </div>
   
 </div>
 
@@ -343,8 +572,8 @@ target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Hello World</div>
-      <div>https://tippye.github.io/2024/06/14/hello-world/</div>
+      <div>Link Prediction of Textual Edge Graphs</div>
+      <div>https://tippye.github.io/2024/06/13/Link Prediction of Textual Edge Graphs/</div>
     </div>
     <div class="license-meta">
       
@@ -356,7 +585,7 @@ target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年6月14日</div>
+          <div>2024年6月13日</div>
         </div>
       
       
@@ -388,12 +617,18 @@ target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2024/06/14/hello-world/" title="Hello World">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/06/13/Link%20Prediction%20of%20Textual%20Edge%20Graphs/" title="Link Prediction of Textual Edge Graphs">
-                        <span class="hidden-mobile">Link Prediction of Textual Edge Graphs</span>
+                      <a href="/2024/05/19/Bipartite%20network%20projection%20and%20personal%20recommendation/" title="Bipartite network projection and personal recommendation">
+                        <span class="hidden-mobile">Bipartite network projection and personal recommendation</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

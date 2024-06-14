@@ -1,0 +1,950 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Tippy">
+  <meta name="keywords" content="Tippy">
+  
+    <meta name="description" content="Bipartite network projection and personal recommendation  原文链接：How to project a bipartite network?  论文要做什么？ 这篇论文主要提出了一种加权方法(NBI)，用来保留二分网络的原始信息(因为单模投影压缩二分网络会丢失信息) 。除此之外为了展示性能，用用户-电影数据比较了另外两种方法和本文提出方法的性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bipartite network projection and personal recommendation">
+<meta property="og:url" content="https://tippye.github.io/2024/05/19/Bipartite%20network%20projection%20and%20personal%20recommendation/">
+<meta property="og:site_name" content="Tippyの博客站">
+<meta property="og:description" content="Bipartite network projection and personal recommendation  原文链接：How to project a bipartite network?  论文要做什么？ 这篇论文主要提出了一种加权方法(NBI)，用来保留二分网络的原始信息(因为单模投影压缩二分网络会丢失信息) 。除此之外为了展示性能，用用户-电影数据比较了另外两种方法和本文提出方法的性">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-05-18T17:19:46.000Z">
+<meta property="article:modified_time" content="2024-06-14T11:12:33.841Z">
+<meta property="article:author" content="Tippy">
+<meta property="article:tag" content="复杂网络">
+<meta property="article:tag" content="NLP">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Bipartite network projection and personal recommendation - Tippyの博客站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"tippye.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Tippyの博客站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Bipartite network projection and personal recommendation"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Tippy
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-05-19 01:19" pubdate>
+          2024年5月19日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="论文精读"
+        id="heading-df62756d5c4762ba9cc7d57778841b59" role="tab" data-toggle="collapse" href="#collapse-df62756d5c4762ba9cc7d57778841b59"
+        aria-expanded="true"
+      >
+        论文精读
+        <span class="list-group-count">(3)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-df62756d5c4762ba9cc7d57778841b59"
+           role="tabpanel" aria-labelledby="heading-df62756d5c4762ba9cc7d57778841b59">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/05/19/Bipartite%20network%20projection%20and%20personal%20recommendation/" title="Bipartite network projection and personal recommendation"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">Bipartite network projection and personal recommendation</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/06/13/Link%20Prediction%20of%20Textual%20Edge%20Graphs/" title="Link Prediction of Textual Edge Graphs"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Link Prediction of Textual Edge Graphs</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/05/09/%E5%A6%82%E4%BD%95%E8%AF%BB%E4%B8%80%E7%AF%87%E8%AE%BA%E6%96%87/" title="如何读一篇论文"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">如何读一篇论文</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Bipartite network projection and personal recommendation</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2024年6月14日 晚上
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1
+id="bipartite-network-projection-and-personal-recommendation">Bipartite
+network projection and personal recommendation</h1>
+<blockquote>
+<p>原文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/0707.0540">How to project a
+bipartite network?</a></p>
+</blockquote>
+<h2 id="论文要做什么">论文要做什么？</h2>
+<p>这篇论文主要提出了一种加权方法(NBI)，用来保留二分网络的原始信息<font size="1rem" color="grey">(因为单模投影压缩二分网络会丢失信息)</font>
+。除此之外为了展示性能，用用户-电影数据比较了另外两种方法和本文提出方法的性能区别。</p>
+<h2 id="文章实验">文章实验</h2>
+<ul>
+<li><p>数据集使用<a
+target="_blank" rel="noopener" href="https://grouplens.org/datasets/movielens/">MovieLens</a></p></li>
+<li><p>对比算法：</p>
+<ul>
+<li>GRM(Global Ranking Method)</li>
+<li>CF(Collaborative Filtering)</li>
+<li>NBI(Network-Based Inference)</li>
+</ul></li>
+<li><p>实验结果：</p>
+<ul>
+<li><p>NBI &gt; CF &gt; GRM</p>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/tippye/PicCloud@master/uPic/2024/05/09/1.png" srcset="/img/loading.gif" lazyload
+alt="The hitting rate as a function of the length of recommendation list." />
+<figcaption aria-hidden="true">The hitting rate as a function of the
+length of recommendation list.</figcaption>
+</figure></li>
+</ul></li>
+</ul>
+<h2 id="实验复现">实验复现</h2>
+<p><a
+target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/tippye/PicCloud@master/uPic/2024/05/09/movielens.zip">我使用的数据集在这</a></p>
+<ol type="1">
+<li><p>导入的包</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> networkx <span class="hljs-keyword">as</span> nx<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> pathlib<br>%matplotlib inline<br></code></pre></td></tr></table></figure></li>
+<li><p>读取数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">users = pd.read_csv(DATA_DIR / <span class="hljs-string">&#x27;u.user&#x27;</span>, sep=<span class="hljs-string">&#x27;|&#x27;</span>, names=[<span class="hljs-string">&#x27;user_id&#x27;</span>, <span class="hljs-string">&#x27;age&#x27;</span>, <span class="hljs-string">&#x27;gender&#x27;</span>, <span class="hljs-string">&#x27;occupation&#x27;</span>, <span class="hljs-string">&#x27;zip_code&#x27;</span>])<br>occupation = pd.read_csv(DATA_DIR / <span class="hljs-string">&#x27;u.occupation&#x27;</span>, header=<span class="hljs-literal">None</span>, names=[<span class="hljs-string">&#x27;occupation&#x27;</span>])<br>movies = pd.read_csv(DATA_DIR / <span class="hljs-string">&#x27;u.item&#x27;</span>, sep=<span class="hljs-string">&#x27;|&#x27;</span>,<br>                     names=[<span class="hljs-string">&#x27;movie_id&#x27;</span>, <span class="hljs-string">&#x27;movie_title&#x27;</span>, <span class="hljs-string">&#x27;release_date&#x27;</span>, <span class="hljs-string">&#x27;video_release_date&#x27;</span>, <span class="hljs-string">&#x27;IMDb_URL&#x27;</span>, <span class="hljs-string">&#x27;unknown&#x27;</span>, <span class="hljs-string">&#x27;Action&#x27;</span>, <span class="hljs-string">&#x27;Adventure&#x27;</span>, <span class="hljs-string">&#x27;Animation&#x27;</span>, <span class="hljs-string">&#x27;Children\&#x27;s&#x27;</span>, <span class="hljs-string">&#x27;Comedy&#x27;</span>, <span class="hljs-string">&#x27;Crime&#x27;</span>, <span class="hljs-string">&#x27;Documentary&#x27;</span>, <span class="hljs-string">&#x27;Drama&#x27;</span>, <span class="hljs-string">&#x27;Fantasy&#x27;</span>, <span class="hljs-string">&#x27;Film-Noir&#x27;</span>, <span class="hljs-string">&#x27;Horror&#x27;</span>, <span class="hljs-string">&#x27;Musical&#x27;</span>, <span class="hljs-string">&#x27;Mystery&#x27;</span>, <span class="hljs-string">&#x27;Romance&#x27;</span>, <span class="hljs-string">&#x27;Sci-Fi&#x27;</span>, <span class="hljs-string">&#x27;Thriller&#x27;</span>, <span class="hljs-string">&#x27;War&#x27;</span>, <span class="hljs-string">&#x27;Western&#x27;</span>], encoding=<span class="hljs-string">&#x27;ISO-8859-1&#x27;</span>)  <span class="hljs-comment"># 列明在数据集的README,编码utf8打不开，PyCharm给建议的ISO-8859-1</span><br><br>DataIndex = <span class="hljs-number">1</span>  <span class="hljs-comment"># 数据集给了u1-u5,不知道为什么要分</span><br>train = pd.read_csv(DATA_DIR / <span class="hljs-string">f&#x27;u<span class="hljs-subst">&#123;DataIndex&#125;</span>.base&#x27;</span>, sep=<span class="hljs-string">&#x27;\t&#x27;</span>, names=[<span class="hljs-string">&#x27;user_id&#x27;</span>, <span class="hljs-string">&#x27;item_id&#x27;</span>, <span class="hljs-string">&#x27;rating&#x27;</span>, <span class="hljs-string">&#x27;timestamp&#x27;</span>])<br>test = pd.read_csv(DATA_DIR / <span class="hljs-string">f&#x27;u<span class="hljs-subst">&#123;DataIndex&#125;</span>.test&#x27;</span>, sep=<span class="hljs-string">&#x27;\t&#x27;</span>, names=[<span class="hljs-string">&#x27;user_id&#x27;</span>, <span class="hljs-string">&#x27;item_id&#x27;</span>, <span class="hljs-string">&#x27;rating&#x27;</span>, <span class="hljs-string">&#x27;timestamp&#x27;</span>])<br></code></pre></td></tr></table></figure></li>
+<li><p>数据预处理</p>
+<ul>
+<li><p>这里创建了一张<code>n*m</code>大小的矩阵<code>collected_frame</code>，其中<code>n</code>为电影的总数，<code>m</code>为用户总数，表中数据为<code>1</code>表示用户“收集/收藏”了这部电影，<code>0</code>表示未收藏。</p></li>
+<li><p>即<code>collected_frame.loc[i,j]=1</code>表示用户<code>j+1</code>收集了电影<code>i+1</code>(这里<code>+1</code>是因为电影和用户id从1开始，而数组从0开始)</p></li>
+<li><p>根据论文作者说法，电影评分<span class="math inline">\(rating \geq
+3\)</span>表示用户收藏了这部电影</p></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">collected_frame = pd.DataFrame(np.zeros((<span class="hljs-built_in">len</span>(movies), <span class="hljs-built_in">len</span>(users))))<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(train)):<br>    <span class="hljs-keyword">if</span> train.rating[i] &lt; <span class="hljs-number">3</span>:<br>        <span class="hljs-keyword">continue</span><br>    collected_frame.iloc[train.item_id[i] - <span class="hljs-number">1</span>, train.user_id[i] - <span class="hljs-number">1</span>] = <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>L</code>是推荐列表长度，用作实验结果的x轴</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">L = np.floor(np.linspace(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(movies) + <span class="hljs-number">1</span>, <span class="hljs-built_in">min</span>(<span class="hljs-number">50</span>, <span class="hljs-built_in">len</span>(movies) + <span class="hljs-number">1</span>))).astype(<span class="hljs-built_in">int</span>)<br></code></pre></td></tr></table></figure></li>
+<li><p>GRM算法推荐</p>
+<ol type="1">
+<li>GRM算法是将所有电影计算受欢迎程度，也就是有多少人收藏了这部电影，然后根据这个值从高到低进行推荐</li>
+<li>创建一个长度为<code>n</code>的数组，用于存放每个电影的受欢迎程度</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#collected_frame.sum(axis=&#x27;columns&#x27;) # 将collected_frame按列求和（每一行的值加一块作为这一行的受欢迎程度）</span><br>grm_frame_sorted = collected_frame.loc[collected_frame.<span class="hljs-built_in">sum</span>(axis=<span class="hljs-string">&#x27;columns&#x27;</span>).sort_values(ascending=<span class="hljs-literal">False</span>).index, :] <span class="hljs-comment"># 将预处理后得到的collected_frame根据受欢迎程度从高到低排序</span><br></code></pre></td></tr></table></figure>
+<ol start="3" type="1">
+<li>实现算法</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">grm</span>(<span class="hljs-params">user_id: <span class="hljs-built_in">int</span>, L: <span class="hljs-built_in">int</span> = <span class="hljs-number">5</span></span>) -&gt; <span class="hljs-built_in">list</span>[<span class="hljs-built_in">int</span>]:<br>    res = []<br>    i = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">while</span> (<span class="hljs-built_in">len</span>(res) &lt; L <span class="hljs-keyword">and</span> i &lt; <span class="hljs-built_in">len</span>(grm_frame_sorted)):     <span class="hljs-comment"># 保证L个推荐，i表示当前遍历到的电影</span><br>        row = grm_frame_sorted.iloc[i]<br>        <span class="hljs-keyword">if</span> row.iloc[user_id - <span class="hljs-number">1</span>] != <span class="hljs-number">1</span>:                      <span class="hljs-comment"># 如果用户没有看过该电影</span><br>            res.append(grm_frame_sorted.index[i] + <span class="hljs-number">1</span>)       <span class="hljs-comment"># 添加到推荐列表中</span><br>        i += <span class="hljs-number">1</span><br>    <span class="hljs-keyword">return</span> res<br></code></pre></td></tr></table></figure></li>
+<li><p>CF算法推荐</p>
+<ol type="1">
+<li><p>CF算法是找最相似的人收集的电影</p></li>
+<li><p>使用一个<span class="math inline">\(m\times
+m\)</span>的表<code>similar_martix</code>存放用户间的相似度，其中<code>similar_martix[i-1][j-1]</code>表示用户<code>i</code>和用户<code>j</code>之间的相似度。</p>
+<p>用户间相似度计算<code>similar_martix[i-1][j-1]</code>=<span
+class="math inline">\(s_{ij} =
+\frac{\sum_{l=1}^na_{li}a_{lj}}{min\{k(u_i), k(u_j)\}}\)</span></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">similar_martix = np.zeros((<span class="hljs-built_in">len</span>(users), <span class="hljs-built_in">len</span>(users)))<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(users)):<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(users)):<br>        <span class="hljs-keyword">if</span> j &lt;= i: <span class="hljs-comment"># 矩阵是对称的，算一半就行。i==j时设为0，因为下一步公式中要求l≠i</span><br>            <span class="hljs-keyword">continue</span><br>        d = <span class="hljs-built_in">min</span>(collected_frame.loc[:, i].<span class="hljs-built_in">sum</span>(), collected_frame.loc[:, j].<span class="hljs-built_in">sum</span>()) <span class="hljs-comment"># 这是公式的分母部分</span><br>        <span class="hljs-keyword">if</span> d == <span class="hljs-number">0</span>:<br>            <span class="hljs-keyword">continue</span><br>        <span class="hljs-comment"># similar_martix[i, j] = sum([collected_frame.loc[l, i] * collected_frame.loc[l, j] for l in range(len(movies))]) / d</span><br>        similar_martix[i,j] = collected_frame.loc[:,i].T.dot(collected_frame.loc[:,j]) / d <span class="hljs-comment"># 使用矩阵运算代替上面注释掉的计算，可以提高运行速度</span><br>        similar_martix[j, i] = similar_martix[i, j] <span class="hljs-comment"># 矩阵是对称的</span><br></code></pre></td></tr></table></figure>
+<p>公式中分子部分的<span
+class="math inline">\(\sum_{l=1}^na_{li}a_{lj}\)</span>表示用户<code>i</code>和用户<code>j</code>同时收集的电影的个数，只有两个都收集时才会使<span
+class="math inline">\(a_{li}a_{lj}=1\)</span></p></li>
+<li><p>计算对象预测得分</p>
+<p>这里用函数<code>cf_value</code>来计算对象的预测得分<span
+class="math inline">\(v_{ij}\)</span></p>
+<p><span class="math inline">\(v_{ij} = \frac{\sum_{l=1,l \neq i}^m
+s_{li}a_{jl}}{\sum_{l=1,l\neq i}^ms_{li}}\)</span></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">cf_value</span>(<span class="hljs-params">i,j</span>):<br>  <span class="hljs-comment"># 由于上一步similar_martix中对角线部分值为0，所以可以直接点乘，不用担心l≠i的要求</span><br>  n = np.dot(similar_martix[i-<span class="hljs-number">1</span>], collected_frame.iloc[j-<span class="hljs-number">1</span>])<br>  d = np.<span class="hljs-built_in">sum</span>(similar_martix[i-<span class="hljs-number">1</span>])<br>  <span class="hljs-keyword">if</span> d == <span class="hljs-number">0</span>:<br>      <span class="hljs-keyword">return</span> <span class="hljs-number">0</span><br>  <span class="hljs-keyword">else</span>:<br>      <span class="hljs-keyword">return</span> n / d<br></code></pre></td></tr></table></figure></li>
+<li><p>实现算法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">cf</span>(<span class="hljs-params">user_id: <span class="hljs-built_in">int</span>, L: <span class="hljs-built_in">int</span> = <span class="hljs-number">5</span></span>) -&gt; <span class="hljs-built_in">list</span>[<span class="hljs-built_in">int</span>]:<br>    <span class="hljs-comment"># 对象的分表，计算每个对象对于被推荐用户的得分</span><br>    v_set = np.array([cf_value(user_id, j) <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-built_in">len</span>(movies) + <span class="hljs-number">1</span>)])<br>    <span class="hljs-comment"># 用户已经收集的对象</span><br>    collected = collected_frame.loc[:, user_id - <span class="hljs-number">1</span>].where(<span class="hljs-keyword">lambda</span> x: x == <span class="hljs-number">1</span>).dropna().index.to_numpy()<br>    <span class="hljs-comment"># 将得分表中已经收集的对象的值设为-1</span><br>    v_set[collected] = -<span class="hljs-number">1</span><br>    <span class="hljs-comment"># 排序后已经收集的对象一定在最后</span><br>    v_set = np.argsort(-v_set)<br>    <span class="hljs-comment"># 将列表最后已收集的对象去除</span><br>    v_set = v_set[:-<span class="hljs-number">1</span> * <span class="hljs-built_in">len</span>(collected)]<br>    <span class="hljs-comment"># 转化为对象的id</span><br>    v_set += <span class="hljs-number">1</span><br>    <span class="hljs-keyword">return</span> v_set[:L]<br></code></pre></td></tr></table></figure></li>
+</ol></li>
+<li><p>NBI算法推荐</p>
+<ol type="1">
+<li><p>利用二分网络计算相似度进行推荐</p></li>
+<li><p>假设被推荐用户的ID为<code>u</code></p></li>
+<li><p>先找到所有<code>u</code>所收集的对象<code>u_neighbors</code>,并赋值<code>1</code>。这里代码实现使用<code>f_o_initial</code>记录<code>u_neighbors</code>获得的值</p></li>
+<li><p>将对象的值均分给收集此对象的用户</p>
+<ol type="1">
+<li>对于节点<code>i</code>,
+将节点的资源(上一步被赋的值)均分给连接的User节点，也就是<span
+class="math inline">\(被连接的节点资源 +=
+\frac{i的资源}{i的度}\)</span>​</li>
+</ol></li>
+<li><p>将用户的资源再以同样的方式分给对象</p></li>
+<li><p>将对象按所获得的资源量进行排序，去除用户已关联的对象后给出推荐列表</p></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">nbi</span>(<span class="hljs-params">G, user_id: <span class="hljs-built_in">int</span>, u_num: <span class="hljs-built_in">int</span> = <span class="hljs-number">983</span>, o_num: <span class="hljs-built_in">int</span> = <span class="hljs-number">1682</span></span>)-&gt;<span class="hljs-built_in">list</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    计算指定用户user_id的推荐列表</span><br><span class="hljs-string">    :param G:       用户-物品二分图</span><br><span class="hljs-string">    :param user_id: 用户ID</span><br><span class="hljs-string">    :param u_num:   总用户数</span><br><span class="hljs-string">    :param o_num:   总物品数</span><br><span class="hljs-string">    :return:        推荐物品列表</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    f_o_initial = np.zeros(o_num)   <span class="hljs-comment"># 存放Object开始时的资源</span><br>    f_u = np.zeros(u_num)           <span class="hljs-comment"># 存放Object转到Users时的资源</span><br>    f_o = np.zeros(o_num)           <span class="hljs-comment"># 存放Users转到Objects时的资源，也是最终的推荐列表</span><br><br>    <span class="hljs-comment"># 初始化Object的资源，将被推荐用户所关联的资源全部赋值为1</span><br>    u_neighbors = np.array(<span class="hljs-built_in">list</span>(G.neighbors(user_id))) - u_num - <span class="hljs-number">1</span><br>    f_o_initial[u_neighbors] += <span class="hljs-number">1</span><br><br>    <span class="hljs-comment"># 第一步：资源从Object集到User集O--&gt;U</span><br>    <span class="hljs-keyword">for</span> o, fo <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(f_o_initial):    <span class="hljs-comment"># 这里也可以循环range(u_num+1,u_num+o_num+1)</span><br>        o_node_id = o + u_num + <span class="hljs-number">1</span>           <span class="hljs-comment"># 对象节点id</span><br>        o_degree = G.degree(o_node_id)<br>        <span class="hljs-keyword">if</span> o_degree == <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> fo==<span class="hljs-number">0</span>:          <span class="hljs-comment"># 度为零会导致后边报错，资源为0则没必要计算</span><br>            <span class="hljs-keyword">continue</span><br>        neighbors = np.array(<span class="hljs-built_in">list</span>(G.neighbors(o_node_id))) - <span class="hljs-number">1</span><br>        f_u[neighbors] += fo / o_degree<br><br>    <span class="hljs-comment"># 第二步：资源从User集到Object集U--&gt;O</span><br>    <span class="hljs-keyword">for</span> u, fu <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(f_u):<br>        u_node_id = u + <span class="hljs-number">1</span><br>        u_degree = G.degree(u_node_id)<br>        <span class="hljs-keyword">if</span> u_degree == <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> fu==<span class="hljs-number">0</span>:<br>            <span class="hljs-keyword">continue</span><br>        neighbors = np.array(<span class="hljs-built_in">list</span>(G.neighbors(u_node_id))) - u_num - <span class="hljs-number">1</span>  <span class="hljs-comment"># 因为Object的id排在user后面，所以要多减去u_num</span><br>        f_o[neighbors] += fu / u_degree<br><br>    f_o[u_neighbors] = -<span class="hljs-number">1</span>           <span class="hljs-comment"># 将值设置为-1，下一步排序时就一定会被放在末尾</span><br>    f_o = np.argsort(-f_o)<br>    f_o = f_o[:-<span class="hljs-number">1</span> * <span class="hljs-built_in">len</span>(u_neighbors)]   <span class="hljs-comment"># 去掉末尾的几个(用户已收集的Object)</span><br>    f_o += <span class="hljs-number">1</span>                        <span class="hljs-comment"># 将数组的角标转化为Object的id</span><br>    <span class="hljs-keyword">return</span> f_o<br></code></pre></td></tr></table></figure></li>
+<li><p>计算各参数的代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><code class="hljs python">hitting_rate_cf = np.zeros(<span class="hljs-built_in">len</span>(L))<br>hitting_rate_grm = np.zeros(<span class="hljs-built_in">len</span>(L))<br>hitting_rate_nbi = np.zeros(<span class="hljs-built_in">len</span>(L))<br><br>r_set_cf = np.zeros(<span class="hljs-built_in">len</span>(test))<br>r_set_nbi = np.zeros(<span class="hljs-built_in">len</span>(test))<br>r_set_grm = np.zeros(<span class="hljs-built_in">len</span>(test))<br><br>user_num = <span class="hljs-number">0</span><br><span class="hljs-keyword">for</span> i, (idx, u) <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(tqdm(users.iterrows(), total=users.shape[<span class="hljs-number">0</span>])):<br>    <span class="hljs-comment"># print(f&#x27;当前计算用户：&#123;u.user_id&#125;&#x27;)</span><br>    test_list = test.where((test.user_id == u.user_id) &amp; (test.rating &gt;= <span class="hljs-number">3</span>)).dropna()<br>    true_list = <span class="hljs-built_in">set</span>(test_list.item_id.tolist())<br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(test_list) == <span class="hljs-number">0</span>:<br>        <span class="hljs-keyword">continue</span><br>    forecast_grm = grm(u.user_id, L=<span class="hljs-built_in">max</span>(L))<br>    forecast_cf = cf(u.user_id, L=<span class="hljs-built_in">max</span>(L))<br>    forecast_nbi = nbi(G, u.user_id, u_num=<span class="hljs-built_in">len</span>(users), o_num=<span class="hljs-built_in">len</span>(movies))<br>    <span class="hljs-keyword">for</span> il <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(L)):<br>        tmp_forecast_grm = forecast_grm[:L[il]]<br>        tmp_forecast_cf = forecast_cf[:L[il]]<br>        tmp_forecast_nbi = forecast_nbi[:L[il]]<br>        hit_grm = <span class="hljs-built_in">len</span>(<span class="hljs-built_in">set</span>(tmp_forecast_grm).intersection(true_list)) / <span class="hljs-built_in">len</span>(true_list)<br>        hit_cf = <span class="hljs-built_in">len</span>(<span class="hljs-built_in">set</span>(tmp_forecast_cf).intersection(true_list)) / <span class="hljs-built_in">len</span>(true_list)<br>        hit_nbi = <span class="hljs-built_in">len</span>(<span class="hljs-built_in">set</span>(tmp_forecast_nbi).intersection(true_list)) / <span class="hljs-built_in">len</span>(true_list)<br>        hitting_rate_grm[il] += hit_grm<br>        hitting_rate_cf[il] += hit_cf<br>        hitting_rate_nbi[il] += hit_nbi<br>    <br>    forecast_grm = <span class="hljs-built_in">list</span>(forecast_grm)<br>    forecast_cf = <span class="hljs-built_in">list</span>(forecast_cf)<br>    forecast_nbi = <span class="hljs-built_in">list</span>(forecast_nbi)<br>    <span class="hljs-keyword">for</span> j, t <span class="hljs-keyword">in</span> test_list.iterrows():<br>        <span class="hljs-keyword">if</span> t.rating &lt; <span class="hljs-number">3</span>:<br>            <span class="hljs-keyword">continue</span><br>        <span class="hljs-keyword">try</span>:<br>            positions_grm = forecast_grm.index(t.item_id) + <span class="hljs-number">1</span><br>        <span class="hljs-keyword">except</span> ValueError:<br>            positions_grm = <span class="hljs-number">0</span><br>        <span class="hljs-keyword">try</span>:<br>            positions_cf = forecast_cf.index(t.item_id) + <span class="hljs-number">1</span><br>        <span class="hljs-keyword">except</span> ValueError:<br>            positions_cf = <span class="hljs-number">0</span><br>        <span class="hljs-keyword">try</span>:<br>            positions_nbi = forecast_nbi.index(t.item_id) + <span class="hljs-number">1</span><br>        <span class="hljs-keyword">except</span> ValueError:<br>            positions_nbi = <span class="hljs-number">0</span><br>        r_set_grm[j] = positions_grm / <span class="hljs-built_in">len</span>(forecast_grm)<br>        r_set_cf[j] = positions_cf / <span class="hljs-built_in">len</span>(forecast_cf)<br>        r_set_nbi[j] = positions_nbi / <span class="hljs-built_in">len</span>(forecast_nbi)<br><br>    user_num += <span class="hljs-number">1</span><br>nonzero_count = test.where(test.rating &gt;= <span class="hljs-number">3</span>).count()[<span class="hljs-string">&#x27;user_id&#x27;</span>]<br>r_set_grm = np.sort(r_set_grm)<br>r_average_grm = np.<span class="hljs-built_in">sum</span>(r_set_grm) / nonzero_count<br>r_set_cf = np.sort(r_set_cf)<br>r_average_cf = np.<span class="hljs-built_in">sum</span>(r_set_cf) / nonzero_count<br>r_set_nbi = np.sort(r_set_nbi)<br>r_average_nbi = np.<span class="hljs-built_in">sum</span>(r_set_nbi) / nonzero_count<br>hitting_rate_grm /= user_num<br>hitting_rate_cf /= user_num<br>hitting_rate_nbi /= user_num<br></code></pre></td></tr></table></figure></li>
+<li><p>三种算法的对比结果图</p>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/tippye/PicCloud@master/uPic/2024/05/18/image-20240518030432196.png" srcset="/img/loading.gif" lazyload
+alt="image-20240518030432196" />
+<figcaption aria-hidden="true">image-20240518030432196</figcaption>
+</figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.plot(L, hitting_rate_grm, color=<span class="hljs-string">&#x27;black&#x27;</span>, label=<span class="hljs-string">&#x27;GRM&#x27;</span>)<br>plt.plot(L, hitting_rate_cf, color=<span class="hljs-string">&#x27;blue&#x27;</span>, label=<span class="hljs-string">&#x27;CF&#x27;</span>, linestyle=<span class="hljs-string">&#x27;--&#x27;</span>)<br>plt.plot(L, hitting_rate_nbi, color=<span class="hljs-string">&#x27;red&#x27;</span>, label=<span class="hljs-string">&#x27;nbi&#x27;</span>, linestyle=<span class="hljs-string">&#x27;-.&#x27;</span>)<br>plt.legend([<span class="hljs-string">&#x27;GRM&#x27;</span>, <span class="hljs-string">&#x27;CF&#x27;</span>, <span class="hljs-string">&#x27;nbi&#x27;</span>])<br>plt.title(<span class="hljs-string">&#x27;The hitting rate as a function of the length of recommendation list&#x27;</span>)<br>plt.xlabel(<span class="hljs-string">&#x27;推荐列表长度&#x27;</span>)<br>plt.ylabel(<span class="hljs-string">&#x27;命中率&#x27;</span>)<br>plt.savefig(<span class="hljs-string">&#x27;recommend_functions.png&#x27;</span>,dpi=<span class="hljs-number">300</span>)<br></code></pre></td></tr></table></figure></li>
+<li><p>The predicted position of each entry in the probe ranked in the
+ascending order(按升序排列的探测器中每个条目的预测位置)</p>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/tippye/PicCloud@master/uPic/2024/05/19/image-20240519091310934.png" srcset="/img/loading.gif" lazyload
+alt="image-20240519091310934" />
+<figcaption aria-hidden="true">image-20240519091310934</figcaption>
+</figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.plot(<span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(test)), r_set_grm, label=<span class="hljs-string">f&#x27;GRM &lt;r&gt;=<span class="hljs-subst">&#123;r_average_grm:<span class="hljs-number">.3</span>f&#125;</span>&#x27;</span>)<br>plt.plot(<span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(test)), r_set_cf, label=<span class="hljs-string">f&#x27;CF &lt;r&gt;=<span class="hljs-subst">&#123;r_average_cf:<span class="hljs-number">.3</span>f&#125;</span>&#x27;</span>)<br>plt.plot(<span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(test)), r_set_nbi, label=<span class="hljs-string">f&#x27;NBI &lt;r&gt;=<span class="hljs-subst">&#123;r_average_nbi:<span class="hljs-number">.3</span>f&#125;</span>&#x27;</span>)<br>plt.legend([<span class="hljs-string">f&#x27;GRM &lt;r&gt;=<span class="hljs-subst">&#123;r_average_grm:<span class="hljs-number">.3</span>f&#125;</span>&#x27;</span>, <span class="hljs-string">f&#x27;CF &lt;r&gt;=<span class="hljs-subst">&#123;r_average_cf:<span class="hljs-number">.3</span>f&#125;</span>&#x27;</span>, <span class="hljs-string">f&#x27;NBI &lt;r&gt;=<span class="hljs-subst">&#123;r_average_nbi:<span class="hljs-number">.3</span>f&#125;</span>&#x27;</span>])<br>plt.title(<span class="hljs-string">&#x27;The predicted position of each entry in the probe ranked in the ascending order&#x27;</span>)<br>plt.xlabel(<span class="hljs-string">&#x27;range(len(test))&#x27;</span>)<br>plt.ylabel(<span class="hljs-string">&#x27;r&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/" class="category-chain-item">论文精读</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%A4%8D%E6%9D%82%E7%BD%91%E7%BB%9C/" class="print-no-link">#复杂网络</a>
+      
+        <a href="/tags/NLP/" class="print-no-link">#NLP</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Bipartite network projection and personal recommendation</div>
+      <div>https://tippye.github.io/2024/05/19/Bipartite network projection and personal recommendation/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Tippy</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年5月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/06/13/Link%20Prediction%20of%20Textual%20Edge%20Graphs/" title="Link Prediction of Textual Edge Graphs">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Link Prediction of Textual Edge Graphs</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/05/17/BA%E6%A8%A1%E5%9E%8B%E4%B8%8E%E5%B9%82%E7%BB%BF%E5%BA%A6%E5%88%86%E5%B8%83/" title="BA模型与幂绿度分布">
+                        <span class="hidden-mobile">BA模型与幂绿度分布</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
