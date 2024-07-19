@@ -16,12 +16,12 @@
   <meta name="author" content="Tippy">
   <meta name="keywords" content="Tippy">
   
-    <meta name="description" content="GraphTranslator: Aligning Graph Model to Large Language Model for Open-ended Tasks    论文要做什么 通过LLM(大语言模型)与GM(图模型)相结合，实现一个既能解决预定义任务又能解决开放式任务的模型。 实验结果表明，该方法在零样本分类等任务中表现出色，并具有广泛的应用前景。 论文背景 现有将LLM应用到GM的工作">
+    <meta name="description" content="# GraphTranslator: Aligning Graph Model to Large Language Model for Open-ended Tasks    论文要做什么 通过LLM(大语言模型)与GM(图模型)相结合，实现一个既能解决预定义任务又能解决开放式任务的模型。 实验结果表明，该方法在零样本分类等任务中表现出色，并具有广泛的应用前景。 论文背景 现有将LLM应用到GM的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GraphTranslator: Aligning Graph Model to Large Language Model for Open-ended Tasks">
 <meta property="og:url" content="https://tippye.github.io/2024/07/19/GraphTranslator:%20Aligning%20Graph%20Model%20to%20Large%20Language%20Model%20for%20Open-ended%20Tasks/">
 <meta property="og:site_name" content="Tippyの博客站">
-<meta property="og:description" content="GraphTranslator: Aligning Graph Model to Large Language Model for Open-ended Tasks    论文要做什么 通过LLM(大语言模型)与GM(图模型)相结合，实现一个既能解决预定义任务又能解决开放式任务的模型。 实验结果表明，该方法在零样本分类等任务中表现出色，并具有广泛的应用前景。 论文背景 现有将LLM应用到GM的工作">
+<meta property="og:description" content="# GraphTranslator: Aligning Graph Model to Large Language Model for Open-ended Tasks    论文要做什么 通过LLM(大语言模型)与GM(图模型)相结合，实现一个既能解决预定义任务又能解决开放式任务的模型。 实验结果表明，该方法在零样本分类等任务中表现出色，并具有广泛的应用前景。 论文背景 现有将LLM应用到GM的">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white">
 <meta property="og:image" content="https://img.shields.io/badge/arxiv-B31B1B?style=for-the-badge&amp;logo=arxiv&amp;logoColor=ffffff">
@@ -33,8 +33,11 @@
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
 <meta property="article:published_time" content="2024-07-18T18:48:57.000Z">
-<meta property="article:modified_time" content="2024-07-19T02:48:43.196Z">
+<meta property="article:modified_time" content="2024-07-19T03:00:58.349Z">
 <meta property="article:author" content="Tippy">
 <meta property="article:tag" content="复杂网络">
 <meta property="article:tag" content="NLP">
@@ -251,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.1k 字
+          2.9k 字
         
       </span>
     
@@ -262,7 +265,7 @@
         
         
         
-          26 分钟
+          25 分钟
         
       </span>
     
@@ -408,9 +411,8 @@
             
               <div class="markdown-body">
                 
-                <h1
-id="graphtranslator-aligning-graph-model-to-large-language-model-for-open-ended-tasks">GraphTranslator:
-Aligning Graph Model to Large Language Model for Open-ended Tasks</h1>
+                <p># GraphTranslator: Aligning Graph Model to Large Language Model for
+Open-ended Tasks</p>
 <center>
 <a target="_blank" rel="noopener" href='https://github.com/alibaba/GraphTranslator'><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" srcset="/img/loading.gif" lazyload /></a><a target="_blank" rel="noopener" href='https://arxiv.org/abs/2402.07197v4'><img src="https://img.shields.io/badge/arxiv-B31B1B?style=for-the-badge&amp;logo=arxiv&amp;logoColor=ffffff" srcset="/img/loading.gif" lazyload referrerpolicy="no-referrer"></a><a target="_blank" rel="noopener" href='https://mp.weixin.qq.com/s/qqbeiac-p5tKto4YSYSiNw'><img src="https://img.shields.io/badge/WeChat-07c168?style=for-the-badge&amp;logo=wechat&amp;logoColor=ffffff" srcset="/img/loading.gif" lazyload referrerpolicy="no-referrer"></a>
 </center>
@@ -567,29 +569,110 @@ target="_blank" rel="noopener" href="https://github.com/alibaba/GraphTranslator/
 <li><p>Query Token <span class="math inline">\(Q\)</span></p>
 <ul>
 <li><p><span
-class="math inline">\(Q\)</span>是需要学习的参数，所以开始时赋值为0</p></li>
-<li><p>```python # Translator/models/translator_models/translator.py
-init_Qformer query_tokens = nn.Parameter( torch.zeros(1,
-num_query_token, encoder_config.hidden_size) )
-query_tokens.data.normal_(mean=0.0,
-std=encoder_config.initializer_range)</p>
-<h1
-id="translatormodelstranslator_modelstranslator_qformer_arxiv.py-translatorqformerarxiv.forward">Translator/models/translator_models/translator_qformer_arxiv.py
-TranslatorQformerArxiv.forward</h1>
-<h1 id="这里的behavior_embeds是z_v">这里的behavior_embeds是z_v</h1>
-<h1 id="将q的形状扩展为z_v的形状">将Q的形状扩展为z_v的形状</h1>
-<p>query_tokens = self.query_tokens.expand(behavior_embeds.shape[0], -1,
--1) <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs swift">    <br>  <span class="hljs-operator">-</span> 在第一次训练阶段的第一步就是训练<span class="hljs-variable">$Q</span><span class="hljs-variable">$进行学习</span><br>  <br><span class="hljs-operator">-</span> <span class="hljs-type">Description</span> <span class="hljs-type">Tokens</span> <span class="hljs-variable">$t_v</span><span class="hljs-variable">$​​</span><br>  <br>  <span class="hljs-operator">-</span> ```python<br>    # <span class="hljs-type">Translator</span><span class="hljs-regexp">/models/</span>translator_models<span class="hljs-operator">/</span>translator_qformer_arxiv.py<br>    def init_tokenizer(cls):<br>        tokenizer <span class="hljs-operator">=</span> <span class="hljs-type">BertTokenizer</span>.from_pretrained(<span class="hljs-string">&quot;../models/bert-base-uncased&quot;</span>)<br>        tokenizer.add_special_tokens(&#123;<span class="hljs-string">&quot;bos_token&quot;</span>: <span class="hljs-string">&quot;[DEC]&quot;</span>&#125;)<br>        <span class="hljs-keyword">return</span> tokenizer<br>    <br>    # <span class="hljs-type">Translator</span><span class="hljs-regexp">/models/</span>translator_models<span class="hljs-operator">/</span>translator_qformer_arxiv.py <span class="hljs-type">TranslatorQformerArxiv</span>.__init__<br>    <span class="hljs-keyword">self</span>.tokenizer <span class="hljs-operator">=</span> <span class="hljs-keyword">self</span>.init_tokenizer()<br>    <br>    # <span class="hljs-type">Translator</span><span class="hljs-regexp">/models/</span>translator_models<span class="hljs-operator">/</span>translator_qformer_arxiv.py <span class="hljs-type">TranslatorQformerArxiv</span>.forward<br>    text_tokens <span class="hljs-operator">=</span> <span class="hljs-keyword">self</span>.tokenizer(<br>        text,													# 这里的text是上边表格中一条数据的`paper_summary`<br>        padding<span class="hljs-operator">=</span><span class="hljs-string">&quot;max_length&quot;</span>,<br>        truncation<span class="hljs-operator">=</span><span class="hljs-type">True</span>,<br>        max_length<span class="hljs-operator">=</span><span class="hljs-keyword">self</span>.max_txt_len,<br>        return_tensors<span class="hljs-operator">=</span><span class="hljs-string">&quot;pt&quot;</span>,<br>    ).to(behavior_embeds.device)<br></code></pre></td></tr></table></figure></p></li>
+class="math inline">\(Q\)</span>是需要学习的参数，所以开始时赋值为0</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Translator/models/translator_models/translator.py init_Qformer</span><br>query_tokens = nn.Parameter(<br>    torch.zeros(<span class="hljs-number">1</span>, num_query_token, encoder_config.hidden_size)<br>)<br>query_tokens.data.normal_(mean=<span class="hljs-number">0.0</span>, std=encoder_config.initializer_range)<br><br><span class="hljs-comment"># Translator/models/translator_models/translator_qformer_arxiv.py TranslatorQformerArxiv.forward</span><br><span class="hljs-comment"># 这里的behavior_embeds是z_v</span><br><span class="hljs-comment"># 将Q的形状扩展为z_v的形状</span><br>query_tokens = self.query_tokens.expand(behavior_embeds.shape[<span class="hljs-number">0</span>], -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure></li>
+<li><p>在第一次训练阶段的第一步就是训练<span
+class="math inline">\(Q\)</span>进行学习</p></li>
 </ul></li>
+<li><p>Description Tokens <span class="math inline">\(t_v\)</span>​​</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Translator/models/translator_models/translator_qformer_arxiv.py</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">init_tokenizer</span>(<span class="hljs-params">cls</span>):<br>    tokenizer = BertTokenizer.from_pretrained(<span class="hljs-string">&quot;../models/bert-base-uncased&quot;</span>)<br>    tokenizer.add_special_tokens(&#123;<span class="hljs-string">&quot;bos_token&quot;</span>: <span class="hljs-string">&quot;[DEC]&quot;</span>&#125;)<br>    <span class="hljs-keyword">return</span> tokenizer<br><br><span class="hljs-comment"># Translator/models/translator_models/translator_qformer_arxiv.py TranslatorQformerArxiv.__init__</span><br>self.tokenizer = self.init_tokenizer()<br><br><span class="hljs-comment"># Translator/models/translator_models/translator_qformer_arxiv.py TranslatorQformerArxiv.forward</span><br>text_tokens = self.tokenizer(<br>    text,													<span class="hljs-comment"># 这里的text是上边表格中一条数据的`paper_summary`</span><br>    padding=<span class="hljs-string">&quot;max_length&quot;</span>,<br>    truncation=<span class="hljs-literal">True</span>,<br>    max_length=self.max_txt_len,<br>    return_tensors=<span class="hljs-string">&quot;pt&quot;</span>,<br>).to(behavior_embeds.device)<br></code></pre></td></tr></table></figure></li>
 <li><p>Node Embedding <span class="math inline">\(z_v\)</span>​​</p>
 <ul>
-<li><p>在Producer模块存到了数据中，对应上表的<code>embedding</code></p></li>
-<li><p>```python behavior_embeds = torch.unsqueeze(samples[1], dim=1)
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><code class="hljs ruby">  <br>  - <span class="hljs-title class_">Translator</span>中包括两个编码器<span class="hljs-variable">$f_t</span>(\cdot)<span class="hljs-variable">$和</span><span class="hljs-variable">$f_z</span>(\cdot)<span class="hljs-variable">$</span><br><span class="hljs-variable"></span>  <br>    - <span class="hljs-variable">$f_t</span>(\cdot)<span class="hljs-variable">$基</span>于<span class="hljs-variable constant_">BERT</span>实现，用于提取语言特征<span class="hljs-variable">$T_v</span> = f_t(t_v)<span class="hljs-variable">$</span><br><span class="hljs-variable"></span>      - <span class="hljs-variable">$f_t</span>(\cdot)<span class="hljs-variable">$​</span>包含<span class="hljs-number">12</span>层<span class="hljs-title class_">Transformer</span>块<br>      - ~~对应<span class="hljs-string">`Translator/models/translator_models/translator_qformer_arxiv.py TranslatorQformerArxiv.forward`</span>中的第一部分，到<span class="hljs-string">`text_feat = F.normalize(...)`</span>为止~~<br>    - <span class="hljs-variable">$f_z</span>(\cdot)<span class="hljs-variable">$基</span>于<span class="hljs-title class_">Transformer</span>网络<br>      - 以M个可学习的token embeddings作为输入，称为query token <span class="hljs-variable">$Q</span>=\&#123;q_i\&#125;_&#123;i=<span class="hljs-number">1</span>&#125;^M<span class="hljs-variable">$</span><br><span class="hljs-variable"></span>      - 输出M个特征<span class="hljs-variable">$H_v</span>=f_z(Q,z_v)=\&#123;h_&#123;v,i&#125;\&#125;_&#123;i=<span class="hljs-number">1</span>&#125;^M<span class="hljs-variable">$,</span>提取<span class="hljs-variable">$z</span>_v<span class="hljs-variable">$中</span>与<span class="hljs-variable">$t</span>_v<span class="hljs-variable">$最</span>相关的信息<br>      - 使用自注意力层相互交互，通过交叉注意力层(<span class="hljs-title class_">Cross</span> <span class="hljs-title class_">Attention</span>)与节点嵌入<span class="hljs-variable">$z</span>_v<span class="hljs-variable">$交</span>互，并通过在<span class="hljs-variable">$f</span>_t<span class="hljs-variable">$和</span><span class="hljs-variable">$f</span>_z<span class="hljs-variable">$之</span>间共享的自注意力层(<span class="hljs-title class_">Shared</span> <span class="hljs-title class_">Self</span>-<span class="hljs-title class_">Attention</span>)与<span class="hljs-variable">$t</span>_v<span class="hljs-variable">$通</span>信<br>  <br>  - 损失值将由<span class="hljs-variable">$T</span>_v<span class="hljs-variable">$和</span><span class="hljs-variable">$H</span>_v<span class="hljs-variable">$计</span>算得出，具体在下面训练部分说明<br><br><span class="hljs-comment">### Train</span><br><br>训练分为了两个阶段<br><br>- <span class="hljs-title class_">Train</span>-<span class="hljs-number">1</span>: 对齐<span class="hljs-variable constant_">GM</span>和<span class="hljs-title class_">Text</span><br>- <span class="hljs-title class_">Train</span>-<span class="hljs-number">2</span>: 对齐<span class="hljs-variable constant_">GM</span>和<span class="hljs-variable constant_">LLM</span><br><br><span class="hljs-comment">#### Train1</span><br><br>对齐<span class="hljs-variable constant_">GM</span>和<span class="hljs-title class_">Text</span>，也就是对齐<span class="hljs-variable">$H_v</span>=\&#123;h_&#123;v, i&#125;\&#125;_&#123;i=<span class="hljs-number">1</span>&#125;^M<span class="hljs-variable">$和</span><span class="hljs-variable">$\</span>tilde t_v<span class="hljs-variable">$（</span><span class="hljs-variable">$\</span>tilde t _v<span class="hljs-variable">$是</span><span class="hljs-variable">$T</span>_v<span class="hljs-variable">$的</span><span class="hljs-string">`[CLS]`</span>token嵌入）<br><br>对应的代码为[&lt;img src=<span class="hljs-string">&quot;https://github.githubassets.com/favicons/favicon.svg&quot;</span> style=<span class="hljs-string">&quot;zoom:50%;&quot;</span> /&gt;](<span class="hljs-symbol">https:</span>/<span class="hljs-regexp">/github.com/alibaba</span><span class="hljs-regexp">/GraphTranslator/blob</span><span class="hljs-regexp">/main/</span><span class="hljs-title class_">Translator</span>/models/translator_models/translator_qformer_arxiv.py<span class="hljs-comment">#L90)</span><br><br>根据作者的注释可以将<span class="hljs-string">`forward`</span>函数分为<span class="hljs-number">4</span>个部分（第一部分姑且命名为<span class="hljs-string">`Text Feature Extractor`</span>)<br><br><span class="hljs-comment">##### [Text Feature Extractor&lt;img src=&quot;https://github.githubassets.com/favicons/favicon.svg&quot; style=&quot;zoom:50%;&quot; /&gt;](https://github.com/alibaba/GraphTranslator/blob/main/Translator/models/translator_models/translator_qformer_arxiv.py#L91)</span><br><br>这部分为论文中提到的<span class="hljs-variable">$f</span>_t<span class="hljs-variable">$,</span> 使用<span class="hljs-string">`Qformer.bert`</span>处理<span class="hljs-string">`text_tokens`</span>(<span class="hljs-variable">$t</span>_v<span class="hljs-variable">$)</span>得到<span class="hljs-string">`text_feat`</span>(<span class="hljs-variable">$T</span>_v<span class="hljs-variable">$)</span>.<br><br>- <span class="hljs-string">`behavior_feats`</span>表示<span class="hljs-variable">$H_v</span> = f_z(Q, z_v) = \left\&#123;h_&#123;v, i&#125;\right\&#125;_&#123;i=<span class="hljs-number">1</span>&#125;^M<span class="hljs-variable">$,</span> M指可学习的token embedding的数量即<span class="hljs-string">`num_query_tokens`</span><br><br>  - &gt; 对于节点嵌入<span class="hljs-variable">$z</span>_v<span class="hljs-variable">$ </span>，我们还采用基于 <span class="hljs-title class_">Transformer</span> 的网络<span class="hljs-variable">$f_z</span>(\cdot)<span class="hljs-variable">$ </span>，以$M<span class="hljs-variable">$个</span>可学习的标记嵌入作为输入（称为查询标记<span class="hljs-variable">$Q</span>=\left\&#123;q_i\right\&#125;_&#123;i=<span class="hljs-number">1</span>&#125;^M<span class="hljs-variable">$，</span>输出<span class="hljs-variable">$�</span>�<span class="hljs-variable">$特</span>征<span class="hljs-variable">$H_v</span>=\left\&#123;h_&#123;v,i&#125;\right\&#125;_&#123;𝑖=<span class="hljs-number">1</span>&#125;^𝑀<span class="hljs-variable">$和</span><span class="hljs-variable">$H_v</span>=f_z(Q,z_v)<span class="hljs-variable">$ </span>，提取与<span class="hljs-variable">$�</span>�_𝑣<span class="hljs-variable">$最</span>相关的<span class="hljs-variable">$z_</span>𝑣<span class="hljs-variable">$​</span>信息。<br>  <br>- <span class="hljs-string">`self.tokenizer`</span>在初始化中使用<span class="hljs-string">`tokenizer.add_special_tokens(&#123;&quot;bos_token&quot;: &quot;[DEC]&quot;&#125;)`</span>实现了将<span class="hljs-string">`[CLS]`</span>标签替换为<span class="hljs-string">`[DEC]`</span>[&lt;img src=<span class="hljs-string">&quot;https://github.githubassets.com/favicons/favicon.svg&quot;</span> style=<span class="hljs-string">&quot;zoom:50%;&quot;</span> /&gt;](<span class="hljs-symbol">https:</span>/<span class="hljs-regexp">/github.com/alibaba</span><span class="hljs-regexp">/GraphTranslator/blob</span><span class="hljs-regexp">/main/</span><span class="hljs-title class_">Translator</span>/models/translator_models/translator_qformer_arxiv.py<span class="hljs-comment">#L68)</span><br><br>  - <span class="hljs-variable constant_">BERT</span>模型的默认输入格式为<span class="hljs-string">`[CLS] xxxxx [SEP]`</span>，文本数据的开头通常会有<span class="hljs-string">`[CLS]`</span>标签<br><br>- 使用bert提取<span class="hljs-variable">$t</span>_v<span class="hljs-variable">$的</span>特征得到<span class="hljs-variable">$T</span>_v<span class="hljs-variable">$</span><br><span class="hljs-variable"></span><br>  - &gt; 对于文本描述<span class="hljs-variable">$t</span>_v<span class="hljs-variable">$ </span>，我们利用文本编码器<span class="hljs-variable">$f_t</span>(\cdot)<span class="hljs-variable">$（</span>例如 <span class="hljs-variable constant_">BERT</span> [<span class="hljs-number">4</span>] ）提取语言特征<span class="hljs-variable">$T_v</span> = f_t(t_v)<span class="hljs-variable">$，</span>其中<span class="hljs-variable">$f_t</span>(\cdot)<span class="hljs-variable">$包</span>含 <span class="hljs-number">12</span> 层 <span class="hljs-title class_">Transformer</span> 块。<br><br><br><span class="hljs-string">``</span><span class="hljs-string">`python</span><br><span class="hljs-string">behavior_embeds = torch.unsqueeze(samples[1], dim=1)    # z_v</span><br><span class="hljs-string">text = samples[2]</span><br><span class="hljs-string">behavior_embeds = behavior_embeds.to(self.device)</span><br><span class="hljs-string">behavior_atts = torch.ones(behavior_embeds.size()[:-1], dtype=torch.long).to(behavior_embeds.device)</span><br><span class="hljs-string"></span><br><span class="hljs-string">query_tokens = self.query_tokens.expand(behavior_embeds.shape[0], -1, -1)   # Qurery Tokens Q</span><br><span class="hljs-string"></span><br><span class="hljs-string">query_output = self.Qformer.bert(</span><br><span class="hljs-string">    query_embeds=query_tokens,</span><br><span class="hljs-string">    encoder_hidden_states=behavior_embeds,</span><br><span class="hljs-string">    encoder_attention_mask=behavior_atts,</span><br><span class="hljs-string">    use_cache=True,</span><br><span class="hljs-string">    return_dict=True,</span><br><span class="hljs-string">)</span><br><span class="hljs-string"></span><br><span class="hljs-string">behavior_feats = F.normalize(														# H_v</span><br><span class="hljs-string">    self.behavior_proj(query_output.last_hidden_state), dim=-1</span><br><span class="hljs-string">)</span><br><span class="hljs-string"></span><br><span class="hljs-string">text_tokens = self.tokenizer(														# t_v</span><br><span class="hljs-string">    text,</span><br><span class="hljs-string">    padding=&quot;max_length&quot;,</span><br><span class="hljs-string">    truncation=True,</span><br><span class="hljs-string">    max_length=self.max_txt_len,</span><br><span class="hljs-string">    return_tensors=&quot;pt&quot;,</span><br><span class="hljs-string">).to(behavior_embeds.device)</span><br><span class="hljs-string"></span><br><span class="hljs-string">text_output = self.Qformer.bert(</span><br><span class="hljs-string">    text_tokens.input_ids,</span><br><span class="hljs-string">    attention_mask=text_tokens.attention_mask,</span><br><span class="hljs-string">    return_dict=True,</span><br><span class="hljs-string">)</span><br><span class="hljs-string">text_feat = F.normalize(																# T_v</span><br><span class="hljs-string">    self.text_proj(text_output.last_hidden_state[:, 0, :]), dim=-1</span><br><span class="hljs-string">)</span><br></code></pre></td></tr></table></figure></p></li>
+<li><p>在Producer模块存到了数据中，对应上表的<code>embedding</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">behavior_embeds = torch.unsqueeze(samples[<span class="hljs-number">1</span>], dim=<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure></li>
 </ul></li>
 </ul></li>
+<li><p>Translator中包括两个编码器<span
+class="math inline">\(f_t(\cdot)\)</span>和<span
+class="math inline">\(f_z(\cdot)\)</span></p>
+<ul>
+<li><span
+class="math inline">\(f_t(\cdot)\)</span>基于BERT实现，用于提取语言特征<span
+class="math inline">\(T_v = f_t(t_v)\)</span>
+<ul>
+<li><span
+class="math inline">\(f_t(\cdot)\)</span>​包含12层Transformer块</li>
+</ul></li>
+<li><span class="math inline">\(f_z(\cdot)\)</span>基于Transformer网络
+<ul>
+<li>以M个可学习的token embeddings作为输入，称为query token <span
+class="math inline">\(Q=\{q_i\}_{i=1}^M\)</span></li>
+<li>输出M个特征<span
+class="math inline">\(H_v=f_z(Q,z_v)=\{h_{v,i}\}_{i=1}^M\)</span>,提取<span
+class="math inline">\(z_v\)</span>中与<span
+class="math inline">\(t_v\)</span>最相关的信息</li>
+<li>使用自注意力层相互交互，通过交叉注意力层(Cross
+Attention)与节点嵌入<span
+class="math inline">\(z_v\)</span>交互，并通过在<span
+class="math inline">\(f_t\)</span>和<span
+class="math inline">\(f_z\)</span>之间共享的自注意力层(Shared
+Self-Attention)与<span class="math inline">\(t_v\)</span>通信</li>
+</ul></li>
+</ul></li>
+<li><p>损失值将由<span class="math inline">\(T_v\)</span>和<span
+class="math inline">\(H_v\)</span>计算得出，具体在下面训练部分说明</p></li>
 </ul></li>
 </ul>
+<h3 id="train">4.Train</h3>
+<p>训练分为了两个阶段</p>
+<ul>
+<li>Train-1: 对齐GM和Text</li>
+<li>Train-2: 对齐GM和LLM</li>
+</ul>
+<h4 id="train1">Train1</h4>
+<p>对齐GM和Text，也就是对齐<span class="math inline">\(H_v=\{h_{v,
+i}\}_{i=1}^M\)</span>和<span class="math inline">\(\tilde
+t_v\)</span>（<span class="math inline">\(\tilde t _v\)</span>是<span
+class="math inline">\(T_v\)</span>的<code>[CLS]</code>token嵌入）</p>
+<p>对应的代码为<a
+target="_blank" rel="noopener" href="https://github.com/alibaba/GraphTranslator/blob/main/Translator/models/translator_models/translator_qformer_arxiv.py#L90"><img src="https://github.githubassets.com/favicons/favicon.svg" srcset="/img/loading.gif" lazyload style="zoom:50%;" /></a></p>
+<p>根据作者的注释可以将<code>forward</code>函数分为4个部分（第一部分姑且命名为<code>Text Feature Extractor</code>)</p>
+<h5 id="text-feature-extractor"><a
+target="_blank" rel="noopener" href="https://github.com/alibaba/GraphTranslator/blob/main/Translator/models/translator_models/translator_qformer_arxiv.py#L91">Text
+Feature
+Extractor<img src="https://github.githubassets.com/favicons/favicon.svg" srcset="/img/loading.gif" lazyload style="zoom:50%;" /></a></h5>
+<p>这部分为论文中提到的<span class="math inline">\(f_t\)</span>,
+使用<code>Qformer.bert</code>处理<code>text_tokens</code>(<span
+class="math inline">\(t_v\)</span>)得到<code>text_feat</code>(<span
+class="math inline">\(T_v\)</span>).</p>
+<ul>
+<li><p><code>behavior_feats</code>表示<span class="math inline">\(H_v =
+f_z(Q, z_v) = \left\{h_{v, i}\right\}_{i=1}^M\)</span>, M指可学习的token
+embedding的数量即<code>num_query_tokens</code></p>
+<ul>
+<li><blockquote>
+<p>对于节点嵌入<span class="math inline">\(z_v\)</span> ，我们还采用基于
+Transformer 的网络<span class="math inline">\(f_z(\cdot)\)</span>
+，以<span
+class="math inline">\(M\)</span>个可学习的标记嵌入作为输入（称为查询标记<span
+class="math inline">\(Q=\left\{q_i\right\}_{i=1}^M\)</span>，输出<span
+class="math inline">\(𝑀\)</span>特征<span
+class="math inline">\(H_v=\left\{h_{v,i}\right\}_{𝑖=1}^𝑀\)</span>和<span
+class="math inline">\(H_v=f_z(Q,z_v)\)</span> ，提取与<span
+class="math inline">\(𝑡_𝑣\)</span>最相关的<span
+class="math inline">\(z_𝑣\)</span>​信息。</p>
+</blockquote></li>
+</ul></li>
+<li><p><code>self.tokenizer</code>在初始化中使用<code>tokenizer.add_special_tokens(&#123;"bos_token": "[DEC]"&#125;)</code>实现了将<code>[CLS]</code>标签替换为<code>[DEC]</code><a
+target="_blank" rel="noopener" href="https://github.com/alibaba/GraphTranslator/blob/main/Translator/models/translator_models/translator_qformer_arxiv.py#L68"><img src="https://github.githubassets.com/favicons/favicon.svg" srcset="/img/loading.gif" lazyload style="zoom:50%;" /></a></p>
+<ul>
+<li>BERT模型的默认输入格式为<code>[CLS] xxxxx [SEP]</code>，文本数据的开头通常会有<code>[CLS]</code>标签</li>
+</ul></li>
+<li><p>使用bert提取<span
+class="math inline">\(t_v\)</span>的特征得到<span
+class="math inline">\(T_v\)</span></p>
+<ul>
+<li><blockquote>
+<p>对于文本描述<span class="math inline">\(t_v\)</span>
+，我们利用文本编码器<span
+class="math inline">\(f_t(\cdot)\)</span>（例如 BERT [4]
+）提取语言特征<span class="math inline">\(T_v =
+f_t(t_v)\)</span>，其中<span
+class="math inline">\(f_t(\cdot)\)</span>包含 12 层 Transformer 块。</p>
+</blockquote></li>
+</ul></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python">behavior_embeds = torch.unsqueeze(samples[<span class="hljs-number">1</span>], dim=<span class="hljs-number">1</span>)    <span class="hljs-comment"># z_v</span><br>text = samples[<span class="hljs-number">2</span>]<br>behavior_embeds = behavior_embeds.to(self.device)<br>behavior_atts = torch.ones(behavior_embeds.size()[:-<span class="hljs-number">1</span>], dtype=torch.long).to(behavior_embeds.device)<br><br>query_tokens = self.query_tokens.expand(behavior_embeds.shape[<span class="hljs-number">0</span>], -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>)   <span class="hljs-comment"># Qurery Tokens Q</span><br><br>query_output = self.Qformer.bert(<br>    query_embeds=query_tokens,<br>    encoder_hidden_states=behavior_embeds,<br>    encoder_attention_mask=behavior_atts,<br>    use_cache=<span class="hljs-literal">True</span>,<br>    return_dict=<span class="hljs-literal">True</span>,<br>)<br><br>behavior_feats = F.normalize(														<span class="hljs-comment"># H_v</span><br>    self.behavior_proj(query_output.last_hidden_state), dim=-<span class="hljs-number">1</span><br>)<br><br>text_tokens = self.tokenizer(														<span class="hljs-comment"># t_v</span><br>    text,<br>    padding=<span class="hljs-string">&quot;max_length&quot;</span>,<br>    truncation=<span class="hljs-literal">True</span>,<br>    max_length=self.max_txt_len,<br>    return_tensors=<span class="hljs-string">&quot;pt&quot;</span>,<br>).to(behavior_embeds.device)<br><br>text_output = self.Qformer.bert(<br>    text_tokens.input_ids,<br>    attention_mask=text_tokens.attention_mask,<br>    return_dict=<span class="hljs-literal">True</span>,<br>)<br>text_feat = F.normalize(																<span class="hljs-comment"># T_v</span><br>    self.text_proj(text_output.last_hidden_state[:, <span class="hljs-number">0</span>, :]), dim=-<span class="hljs-number">1</span><br>)<br></code></pre></td></tr></table></figure>
 <h5 id="image-text-contrastive"><a
 target="_blank" rel="noopener" href="https://github.com/alibaba/GraphTranslator/blob/main/Translator/models/translator_models/translator_qformer_arxiv.py#L127">Image-text
 Contrastive<img src="https://github.githubassets.com/favicons/favicon.svg" srcset="/img/loading.gif" lazyload style="zoom:50%;" /></a></h5>
