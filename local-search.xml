@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>macOS根据Wi-Fi的自动化</title>
+    <link href="/2024/08/01/macOS%E6%A0%B9%E6%8D%AEWi-Fi%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
+    <url>/2024/08/01/macOS%E6%A0%B9%E6%8D%AEWi-Fi%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96/</url>
+    
+    <content type="html"><![CDATA[<h1 id="macos根据wi-fi的自动化">macOS根据Wi-Fi的自动化</h1><h2 id="作用">作用</h2><p>无法修改路由器时通过自动修改自己电脑的<code>hosts</code>文件实现域名访问局域网的不同地址。</p><p>比如我在本地搭建了jellyfin服务器然后穿透到公网，这样就可以实现在局域网时访问域名走内网，其他时候走公网</p><h2 id="步骤">步骤</h2><ol type="1"><li><p>在设置中添加网络位置</p><figure><imgsrc="https://cdn.jsdelivr.net/gh/Tippye/PicCloud@master/uPic/image-20240801145259388.png"alt="image-20240801145259388" /><figcaption aria-hidden="true">image-20240801145259388</figcaption></figure></li><li><p>安装<ahref="https://github.com/tippye/locationchanger">locationchanger</a></p><ol type="1"><li><p>```shell curl -Lhttps://github.com/tippye/locationchanger/raw/master/locationchanger.sh| bash <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><br><span class="hljs-number">2</span>. <span class="hljs-string">`locationchanger`</span>将会放到[<span class="hljs-regexp">/usr/local</span><span class="hljs-regexp">/bin](file:/</span><span class="hljs-regexp">//usr</span><span class="hljs-regexp">/local/bin</span>)目录中<br><br><span class="hljs-number">3</span>. <span class="hljs-string">``</span><span class="hljs-string">`shell</span><br><span class="hljs-string">   mkdir ~/.locations</span><br><span class="hljs-string">   sudo nano ~/.locations/locations.conf</span><br></code></pre></td></tr></table></figure></p></li><li><p>内容填写格式为</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs conf">wifi1=位置1<br>wifi2=位置2<br></code></pre></td></tr></table></figure><p>例：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs conf">H3C_ALi=办公室<br>H3C_ALi_5G=办公室<br>Xiaomi_B811=宿舍<br></code></pre></td></tr></table></figure></li><li><p>日志文件存放在<code>~/Library/Logs/LocationChanger.log</code></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">tail -f ~/Library/Logs/LocationChanger.log<br></code></pre></td></tr></table></figure><p>或者在控制台应用中也可以找到</p><figure><imgsrc="https://cdn.jsdelivr.net/gh/Tippye/PicCloud@master/uPic/image-20240801150419691.png"alt="image-20240801150419691" /><figcaption aria-hidden="true">image-20240801150419691</figcaption></figure></li><li><p>到这里切换Wi-Fi就可以自动切换网络位置，如果需要执行脚本可以继续往下</p></li><li><p>比如切换到<code>实验室</code>场景时我希望修改hosts文件，那么就可以在~/.locations中创建一个文件<code>实验室</code>（文件没有后缀，文本编辑创建的文件记得删掉后缀）</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo nano ~/.locations/实验室<br></code></pre></td></tr></table></figure></li><li><p>在里面写入</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">!/usr/bin/env bash</span><br>exec 2&gt;&amp;1<br>    # 这下面是要自信的操作<br>    cp ~/auto_hosts/hosts_sys /etc/hosts<br></code></pre></td></tr></table></figure></li><li><p>切换到未配置的Wi-Fi会切换到<code>Automatic</code>场景，所以同样写一个<code>Automatic</code>文件即可实现离开网络时执行的操作</p><ol type="1"><li>有个小问题是切换到其他非Automatic场景就不会执行离开网络的操作，有需要的可以每个场景文件都写一遍离开场景操作或者修改提供的脚本</li></ol></li><li><p>这几个文件保存后会立即生效，不需要重启</p></li></ol></li></ol><h2 id="修改hosts">修改hosts</h2><p>我这里写了两个hosts文件放在<code>~/auto_hosts</code>,只需要执行<code>cp hosts1 /etc/hosts</code>就可以实现修改hosts</p><p>记得保存原本的hosts备份</p><p>直接使用<code>cp</code>修改hosts会因为权限问题无法执行，我给了<code>/etc/hosts</code>777权限，目前没有其他好方法</p><blockquote><p>图片来自文心一格</p></blockquote>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>实用工具</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>GraphTranslator: Aligning Graph Model to Large Language Model for Open-ended Tasks</title>
     <link href="/2024/07/19/GraphTranslator:%20Aligning%20Graph%20Model%20to%20Large%20Language%20Model%20for%20Open-ended%20Tasks/"/>
     <url>/2024/07/19/GraphTranslator:%20Aligning%20Graph%20Model%20to%20Large%20Language%20Model%20for%20Open-ended%20Tasks/</url>
