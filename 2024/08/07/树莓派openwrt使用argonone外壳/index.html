@@ -16,24 +16,24 @@
   <meta name="author" content="Tippy">
   <meta name="keywords" content="Tippy">
   
-    <meta name="description" content="macOS根据Wi-Fi的自动化 作用 无法修改路由器时通过自动修改自己电脑的hosts文件实现域名访问局域网的不同地址。 比如我在本地搭建了jellyfin服务器然后穿透到公网，这样就可以实现在局域网时访问域名走内网，其他时候走公网 步骤  在设置中添加网络位置   image-20240801145259388  安装locationchanger  &#96;&#96;&#96;shell curl -L http">
+    <meta name="description" content="How to OpenWRT install Install steps 1234567opkg install gcc make git git-http apk alpine-repositories dtc bash kmod-i2c-core kmod-i2c-bcm2835 kmod-i2c-algo-bit kmod-i2c-gpioapk --allow-untrusted upda">
 <meta property="og:type" content="article">
-<meta property="og:title" content="macOS根据Wi-Fi的自动化">
-<meta property="og:url" content="https://tippye.github.io/2024/08/01/macOS%E6%A0%B9%E6%8D%AEWi-Fi%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96/">
+<meta property="og:title" content="树莓派openwrt使用argonone外壳">
+<meta property="og:url" content="https://tippye.github.io/2024/08/07/%E6%A0%91%E8%8E%93%E6%B4%BEopenwrt%E4%BD%BF%E7%94%A8argonone%E5%A4%96%E5%A3%B3/">
 <meta property="og:site_name" content="Tippyの博客站">
-<meta property="og:description" content="macOS根据Wi-Fi的自动化 作用 无法修改路由器时通过自动修改自己电脑的hosts文件实现域名访问局域网的不同地址。 比如我在本地搭建了jellyfin服务器然后穿透到公网，这样就可以实现在局域网时访问域名走内网，其他时候走公网 步骤  在设置中添加网络位置   image-20240801145259388  安装locationchanger  &#96;&#96;&#96;shell curl -L http">
+<meta property="og:description" content="How to OpenWRT install Install steps 1234567opkg install gcc make git git-http apk alpine-repositories dtc bash kmod-i2c-core kmod-i2c-bcm2835 kmod-i2c-algo-bit kmod-i2c-gpioapk --allow-untrusted upda">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-07-31T23:18:37.000Z">
-<meta property="article:modified_time" content="2024-08-01T08:30:08.128Z">
+<meta property="article:published_time" content="2024-08-07T05:28:10.000Z">
+<meta property="article:modified_time" content="2024-08-07T13:29:43.783Z">
 <meta property="article:author" content="Tippy">
-<meta property="article:tag" content="实用工具">
+<meta property="article:tag" content="转载">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>macOS根据Wi-Fi的自动化 - Tippyの博客站</title>
+  <title>树莓派openwrt使用argonone外壳 - Tippyの博客站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -205,13 +205,13 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('https://cdn.jsdelivr.net/gh/Tippye/PicCloud@master/uPic/230378724_0_final.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="macOS根据Wi-Fi的自动化"></span>
+            <span id="subtitle" data-typed-text="树莓派openwrt使用argonone外壳"></span>
           
         </div>
 
@@ -227,8 +227,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-08-01 07:18" pubdate>
-          2024年8月1日 早上
+        <time datetime="2024-08-07 13:28" pubdate>
+          2024年8月7日 下午
         </time>
       </span>
     
@@ -239,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          508 字
+          234 字
         
       </span>
     
@@ -250,7 +250,7 @@
         
         
         
-          5 分钟
+          2 分钟
         
       </span>
     
@@ -295,12 +295,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">macOS根据Wi-Fi的自动化</h1>
+            <h1 id="seo-header">树莓派openwrt使用argonone外壳</h1>
             
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2024年8月1日 下午
+                    本文最后更新于 2024年8月7日 晚上
                   
                 
               </p>
@@ -308,56 +308,23 @@
             
               <div class="markdown-body">
                 
-                <h1 id="macos根据wi-fi的自动化">macOS根据Wi-Fi的自动化</h1>
-<h2 id="作用">作用</h2>
-<p>无法修改路由器时通过自动修改自己电脑的<code>hosts</code>文件实现域名访问局域网的不同地址。</p>
-<p>比如我在本地搭建了jellyfin服务器然后穿透到公网，这样就可以实现在局域网时访问域名走内网，其他时候走公网</p>
-<h2 id="步骤">步骤</h2>
-<ol type="1">
-<li><p>在设置中添加网络位置</p>
-<figure>
-<img
-src="https://cdn.jsdelivr.net/gh/Tippye/PicCloud@master/uPic/image-20240801145259388.png" srcset="/img/loading.gif" lazyload
-alt="image-20240801145259388" />
-<figcaption aria-hidden="true">image-20240801145259388</figcaption>
-</figure></li>
-<li><p>安装<a
-target="_blank" rel="noopener" href="https://github.com/tippye/locationchanger">locationchanger</a></p>
-<ol type="1">
-<li><p>```shell curl -L
-https://github.com/tippye/locationchanger/raw/master/locationchanger.sh
-| bash <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><br><span class="hljs-number">2</span>. <span class="hljs-string">`locationchanger`</span>将会放到[<span class="hljs-regexp">/usr/local</span><span class="hljs-regexp">/bin](file:/</span><span class="hljs-regexp">//usr</span><span class="hljs-regexp">/local/bin</span>)目录中<br><br><span class="hljs-number">3</span>. <span class="hljs-string">``</span><span class="hljs-string">`shell</span><br><span class="hljs-string">   mkdir ~/.locations</span><br><span class="hljs-string">   sudo nano ~/.locations/locations.conf</span><br></code></pre></td></tr></table></figure></p></li>
-<li><p>内容填写格式为</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs conf">wifi1=位置1<br>wifi2=位置2<br></code></pre></td></tr></table></figure>
-<p>例：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs conf">H3C_ALi=办公室<br>H3C_ALi_5G=办公室<br>Xiaomi_B811=宿舍<br></code></pre></td></tr></table></figure></li>
-<li><p>日志文件存放在<code>~/Library/Logs/LocationChanger.log</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">tail -f ~/Library/Logs/LocationChanger.log<br></code></pre></td></tr></table></figure>
-<p>或者在控制台应用中也可以找到</p>
-<figure>
-<img
-src="https://cdn.jsdelivr.net/gh/Tippye/PicCloud@master/uPic/image-20240801150419691.png" srcset="/img/loading.gif" lazyload
-alt="image-20240801150419691" />
-<figcaption aria-hidden="true">image-20240801150419691</figcaption>
-</figure></li>
-<li><p>到这里切换Wi-Fi就可以自动切换网络位置，如果需要执行脚本可以继续往下</p></li>
-<li><p>比如切换到<code>实验室</code>场景时我希望修改hosts文件，那么就可以在~/.locations中创建一个文件<code>实验室</code>（文件没有后缀，文本编辑创建的文件记得删掉后缀）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo nano ~/.locations/实验室<br></code></pre></td></tr></table></figure></li>
-<li><p>在里面写入</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">!/usr/bin/env bash</span><br>exec 2&gt;&amp;1<br>    # 这下面是要自信的操作<br>    cp ~/auto_hosts/hosts_sys /etc/hosts<br></code></pre></td></tr></table></figure></li>
-<li><p>切换到未配置的Wi-Fi会切换到<code>Automatic</code>场景，所以同样写一个<code>Automatic</code>文件即可实现离开网络时执行的操作</p>
-<ol type="1">
-<li>有个小问题是切换到其他非Automatic场景就不会执行离开网络的操作，有需要的可以每个场景文件都写一遍离开场景操作或者修改提供的脚本</li>
-</ol></li>
-<li><p>这几个文件保存后会立即生效，不需要重启</p></li>
-</ol></li>
-</ol>
-<h2 id="修改hosts">修改hosts</h2>
-<p>我这里写了两个hosts文件放在<code>~/auto_hosts</code>,只需要执行<code>cp hosts1 /etc/hosts</code>就可以实现修改hosts</p>
-<p>记得保存原本的hosts备份</p>
-<p>直接使用<code>cp</code>修改hosts会因为权限问题无法执行，我给了<code>/etc/hosts</code>777权限，目前没有其他好方法</p>
+                <h1 id="how-to-openwrt-install">How to OpenWRT install</h1>
+<h2 id="install-steps">Install steps</h2>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">opkg install gcc make git git-http apk alpine-repositories dtc bash kmod-i2c-core kmod-i2c-bcm2835 kmod-i2c-algo-bit kmod-i2c-gpio<br>apk --allow-untrusted update<br>apk --allow-untrusted add argp-standalone<br>git clone https://gitlab.com/DarkElvenAngel/argononed.git<br>cd argononed<br>git checkout 0.3.x<br>TARGET_DISTRO=openwrt ./package.sh <br></code></pre></td></tr></table></figure>
+<h3 id="the-expected-output">The expected output</h3>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs text">    ___                                                __<br>   /   |  _________ _____  ____  ____  ____  ___  ____/ /<br>  / /| | / ___/ __ `/ __ \/ __ \/ __ \/ __ \/ _ \/ __  / <br> / ___ |/ /  / /_/ / /_/ / / / / /_/ / / / /  __/ /_/ /  <br>/_/  |_/_/   \__, /\____/_/ /_/\____/_/ /_/\___/\__,_/   <br>            /____/                                       <br>                                                PACKAGER <br>_________________________________________________________<br>ARGON ONE DAEMON CONFIGURING ...<br>Distro check [openwrt] : EXPERIMENTAL<br>SYSTEM CHECK<br>gcc : OK<br>dtc : OK<br>make : OK<br>I2C Bus check : NOT ENABLED<br>CHECKING OPTIONAL SYSTEMS<br>bash-autocomplete : NOT INSTALLED<br>logrotate : INSTALLED<br>Dependency Check : Successful<br>INFO:  Preparing build environment ... OK<br>INFO:  Building Source Files ... OK<br>INFO:  Checking files ... OK<br>INFO:  Building Installer ... OK<br>INFO:  Packing files ... OK<br>INFO:  Verify package ... OK<br>INFO:  Package build/openwrt.pkg.sh is complete <br></code></pre></td></tr></table></figure>
+<p>Execute <code>./build/openwrt.pkg.sh</code></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs text">INFO:  ArgonOne Daemon self extracting installer<br>INFO:  Checking installer ... OK<br>INFO:  Starting installer<br>INFO:  Verify package list ... FOUND!<br>INFO:  Extracting files ... OK<br>INFO:  Verify contents ...OK<br>INFO:  Installing<br>Search config.txt for overlay ... NOT FOUND<br>Insert overlay into /boot/config.txt ... DONE<br>reboot required<br></code></pre></td></tr></table></figure>
+<h3 id="reboot-the-system-and-now-everything-should-be-working">Reboot
+the system and now everything should be working</h3>
+<p>This can be confirmed with <code>argonone-cli --decode</code></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs text">&gt;&gt; DECODEING MEMORY &lt;&lt;<br>Fan Status OFF Speed 0%<br>System Temperature 39°<br>Hysteresis set to 3°<br>Fan Speeds set to 10% 55% 100%<br>Fan Temps set to 55° 60° 65°<br>Fan Mode [ AUTO ] <br>Fan Speed Override 0% <br>Target Temperature 0°<br>Daemon Status : Waiting for request<br>Maximum Temperature : 39°<br>Minimum Temperature : 33°<br>Daemon Warnings : 0<br>Daemon Errors : 0<br>Daemon Critical Errors : 0<br></code></pre></td></tr></table></figure>
+<h3 id="checking-the-logs">Checking the logs</h3>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs text">Sat Jun 26 15:12:51 2021 [INFO] Startup ArgonOne Daemon ver 0.3.2<br>Sat Jun 26 15:12:51 2021 [INFO] Loading Configuration<br>Sat Jun 26 15:12:51 2021 [INFO] Reading values from device-tree<br>Sat Jun 26 15:12:51 2021 [INFO] Hysteresis set to 3<br>Sat Jun 26 15:12:51 2021 [INFO] Fan Speeds set to 10% 55% 100%<br>Sat Jun 26 15:12:51 2021 [INFO] Fan Temps set to 55 60 65<br>Sat Jun 26 15:12:51 2021 [INFO] GPIO initialized<br>Sat Jun 26 15:12:51 2021 [INFO] RPI MODEL 4B 4GB rev 1.1<br>Sat Jun 26 15:12:51 2021 [INFO] Lock file created<br>Sat Jun 26 15:12:51 2021 [INFO] Now running as a daemon<br>Sat Jun 26 15:12:51 2021 [INFO] Begin Initalizing shared memory<br>Sat Jun 26 15:12:51 2021 [INFO] I2C Initialized<br>Sat Jun 26 15:12:51 2021 [INFO] Set fan to 0%<br>Sat Jun 26 15:12:51 2021 [INFO] Set GPIO 4 to mode INPUT<br>Sat Jun 26 15:12:51 2021 [INFO] Set GPIO 4 pull up/down to DOWN<br>Sat Jun 26 15:12:51 2021 [INFO] Now waiting for button press<br>Sat Jun 26 15:12:51 2021 [INFO] Monitoring line 4 on /dev/gpiochip0<br>Sat Jun 26 15:12:53 2021 [INFO] Successfully opened /dev/vcio for temperature sensor<br></code></pre></td></tr></table></figure>
+<p>Everything looks okay!</p>
 <blockquote>
-<p>图片来自文心一格</p>
+<p>文章转载自：<a
+target="_blank" rel="noopener" href="https://gitlab.com/DarkElvenAngel/argononed/-/tree/master/OS/openwrt">https://gitlab.com/DarkElvenAngel/argononed/-/tree/master/OS/openwrt</a></p>
 </blockquote>
 
                 
@@ -371,7 +338,7 @@ alt="image-20240801150419691" />
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/" class="print-no-link">#实用工具</a>
+        <a href="/tags/%E8%BD%AC%E8%BD%BD/" class="print-no-link">#转载</a>
       
     </div>
   
@@ -383,8 +350,8 @@ alt="image-20240801150419691" />
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>macOS根据Wi-Fi的自动化</div>
-      <div>https://tippye.github.io/2024/08/01/macOS根据Wi-Fi的自动化/</div>
+      <div>树莓派openwrt使用argonone外壳</div>
+      <div>https://tippye.github.io/2024/08/07/树莓派openwrt使用argonone外壳/</div>
     </div>
     <div class="license-meta">
       
@@ -396,7 +363,7 @@ alt="image-20240801150419691" />
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年8月1日</div>
+          <div>2024年8月7日</div>
         </div>
       
       
@@ -428,18 +395,12 @@ alt="image-20240801150419691" />
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/08/07/%E6%A0%91%E8%8E%93%E6%B4%BEopenwrt%E4%BD%BF%E7%94%A8argonone%E5%A4%96%E5%A3%B3/" title="树莓派openwrt使用argonone外壳">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">树莓派openwrt使用argonone外壳</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/07/19/GraphTranslator:%20Aligning%20Graph%20Model%20to%20Large%20Language%20Model%20for%20Open-ended%20Tasks/" title="GraphTranslator: Aligning Graph Model to Large Language Model for Open-ended Tasks">
-                        <span class="hidden-mobile">GraphTranslator: Aligning Graph Model to Large Language Model for Open-ended Tasks</span>
+                      <a href="/2024/08/01/macOS%E6%A0%B9%E6%8D%AEWi-Fi%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96/" title="macOS根据Wi-Fi的自动化">
+                        <span class="hidden-mobile">macOS根据Wi-Fi的自动化</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
