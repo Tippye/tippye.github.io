@@ -16,15 +16,15 @@
   <meta name="author" content="Tippy">
   <meta name="keywords" content="Tippy">
   
-    <meta name="description" content="一、3D 变分自编码器">
+    <meta name="description" content="LoRA的作用 - 刻板化某种期望  可以“教会”模型特定的风格、主题或概念 物理规律|运动方式|时间速度 提高模型在特定任务上的表现  数据准备  数据越多，泛化性越好 一般30~50张的图片数据 通常10~20个高质量视频数据，按16fps帧率切割81帧 分辨率和实际训练帧数按显存调整 高分辨率数据可以摘低分辨率基础上二次训练 风格、主题、构图需要保持一致 包含不同的场景提高泛化能力  数据清">
 <meta property="og:type" content="article">
-<meta property="og:title" content="3D变分自编码器(3D VAE)">
-<meta property="og:url" content="https://tippye.github.io/2024/12/09/3D%E5%8F%98%E5%88%86%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8(3D%20VAE)/">
+<meta property="og:title" content="万相大模型LoRA微调">
+<meta property="og:url" content="https://tippye.github.io/2025/04/12/%E4%B8%87%E7%9B%B8%E5%A4%A7%E6%A8%A1%E5%9E%8BLoRA%E5%BE%AE%E8%B0%83/">
 <meta property="og:site_name" content="Tippyの博客站">
-<meta property="og:description" content="一、3D 变分自编码器">
+<meta property="og:description" content="LoRA的作用 - 刻板化某种期望  可以“教会”模型特定的风格、主题或概念 物理规律|运动方式|时间速度 提高模型在特定任务上的表现  数据准备  数据越多，泛化性越好 一般30~50张的图片数据 通常10~20个高质量视频数据，按16fps帧率切割81帧 分辨率和实际训练帧数按显存调整 高分辨率数据可以摘低分辨率基础上二次训练 风格、主题、构图需要保持一致 包含不同的场景提高泛化能力  数据清">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-12-09T02:31:06.000Z">
-<meta property="article:modified_time" content="2024-12-09T12:04:17.978Z">
+<meta property="article:published_time" content="2025-04-11T22:40:34.000Z">
+<meta property="article:modified_time" content="2025-04-12T07:44:10.195Z">
 <meta property="article:author" content="Tippy">
 <meta property="article:tag" content="Tippy">
 <meta name="twitter:card" content="summary_large_image">
@@ -33,7 +33,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>3D变分自编码器(3D VAE) - Tippyの博客站</title>
+  <title>万相大模型LoRA微调 - Tippyの博客站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -211,7 +211,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="3D变分自编码器(3D VAE)"></span>
+            <span id="subtitle" data-typed-text="万相大模型LoRA微调"></span>
           
         </div>
 
@@ -227,8 +227,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-12-09 10:31" pubdate>
-          2024年12月9日 上午
+        <time datetime="2025-04-12 06:40" pubdate>
+          2025年4月12日 早上
         </time>
       </span>
     
@@ -239,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          8 字
+          701 字
         
       </span>
     
@@ -250,7 +250,7 @@
         
         
         
-          1 分钟
+          6 分钟
         
       </span>
     
@@ -295,12 +295,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">3D变分自编码器(3D VAE)</h1>
+            <h1 id="seo-header">万相大模型LoRA微调</h1>
             
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2024年12月9日 晚上
+                    本文最后更新于 2025年4月12日 下午
                   
                 
               </p>
@@ -308,9 +308,77 @@
             
               <div class="markdown-body">
                 
-                <h2 id="一3d-变分自编码器">一、3D 变分自编码器</h2>
-<p><img
-src="http://www.bimant.com/blog/content/images/2023/07/image-10.png" srcset="/img/loading.gif" lazyload /></p>
+                <h1 id="lora的作用---刻板化某种期望">LoRA的作用 - 刻板化某种期望</h1>
+<ul>
+<li>可以“教会”模型特定的风格、主题或概念</li>
+<li>物理规律|运动方式|时间速度</li>
+<li>提高模型在特定任务上的表现</li>
+</ul>
+<h1 id="数据准备">数据准备</h1>
+<ul>
+<li><strong>数据越多，泛化性越好</strong></li>
+<li>一般30~50张的图片数据</li>
+<li>通常10~20个高质量视频数据，按16fps帧率切割81帧</li>
+<li>分辨率和实际训练帧数按显存调整</li>
+<li>高分辨率数据可以摘低分辨率基础上二次训练</li>
+<li>风格、主题、构图需要保持一致</li>
+<li>包含不同的场景提高泛化能力</li>
+</ul>
+<h2 id="数据清洗和标注">数据清洗和标注</h2>
+<ul>
+<li>删除低质量、模糊或不相关的样本</li>
+<li>保证光照、角度、概念的多样性和充分描述</li>
+<li>标注关键特征（如某些风格的必出，或用 special token 强调）</li>
+<li>视频素材手动分段</li>
+<li>Gemini2 打标</li>
+<li>建立提示词结构
+<ul>
+<li>例如：<code>[风格词， 某人/物在某地做某事，其他元素]</code></li>
+</ul></li>
+</ul>
+<h2 id="训练要求脚本">训练要求&amp;脚本</h2>
+<ul>
+<li><a
+target="_blank" rel="noopener" href="https://github.com/tdrussell/diffusion-pipe">diffusion-pipe</a></li>
+<li>推荐使用24G以上显存</li>
+<li>推荐使用4090/L20(速度较慢)/L40s等大显存显卡</li>
+<li>低显存需要开启大量的 blocks_to_swap，速度损耗大</li>
+</ul>
+<h2 id="训练tips">训练TIPS</h2>
+<ul>
+<li>输入训练的帧数会影响速度</li>
+<li>图片数据和图片/视频混合训练会影响数据</li>
+<li>纯图片训练部署过多导致画面运动缓慢或趋于静止</li>
+</ul>
+<h2 id="验证训练结果">验证训练结果</h2>
+<ul>
+<li>在完全没见过的提示词上进行生成，查看风格是否泛化</li>
+<li>查看是否破坏了万相模型本身的运动，概念能力</li>
+<li>查看1帧的时候是否能拟合到训练集的原图</li>
+<li>查看出33帧、77帧的时候，用训练集prompt，是否仍有动态</li>
+</ul>
+<h1 id="常见问题">常见问题</h1>
+<ul>
+<li>输出边缘抖动，有莫名噪点 --- 开启了SLG
+<ul>
+<li>SLG 会加强视频动态</li>
+</ul></li>
+<li>输出的内容构图偏右下 ---
+检查分辨率比例是否合训练一致，降低lora权重</li>
+<li>换了训练集外的提示词就很弱 ---
+更换14b训练，增加更多强调目标概念的分辨率数据</li>
+</ul>
+<h1 id="其他发现">其他发现</h1>
+<ul>
+<li>万相视频模型(1.3B, 14B)可以当生图模型用，且很好训练</li>
+<li>模型可以从数据中泛化出世界规律和表现形态，构造训练集和设定风格目标的时候可以更多考虑时间，因果概念的设计</li>
+<li>1.3B版本可以进行数据集的你和验证，并且速度更快
+<ul>
+<li>高分辨率、动态响应等场景可能会有区别，拟合验证与14B基本一致</li>
+</ul></li>
+<li>模型存在最佳参数，训练集应该贴近最佳参数</li>
+<li>可以用英文提示词进行训练，使用触发词+中文提示词生成，泛化性效果更好</li>
+</ul>
 
                 
               </div>
@@ -318,27 +386,6 @@ src="http://www.bimant.com/blog/content/images/2023/07/image-10.png" srcset="/im
             <hr/>
             <div>
               <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
   
   
 </div>
@@ -349,8 +396,8 @@ src="http://www.bimant.com/blog/content/images/2023/07/image-10.png" srcset="/im
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>3D变分自编码器(3D VAE)</div>
-      <div>https://tippye.github.io/2024/12/09/3D变分自编码器(3D VAE)/</div>
+      <div>万相大模型LoRA微调</div>
+      <div>https://tippye.github.io/2025/04/12/万相大模型LoRA微调/</div>
     </div>
     <div class="license-meta">
       
@@ -362,7 +409,7 @@ src="http://www.bimant.com/blog/content/images/2023/07/image-10.png" srcset="/im
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年12月9日</div>
+          <div>2025年4月12日</div>
         </div>
       
       
@@ -394,18 +441,12 @@ src="http://www.bimant.com/blog/content/images/2023/07/image-10.png" srcset="/im
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/04/12/%E4%B8%87%E7%9B%B8%E5%A4%A7%E6%A8%A1%E5%9E%8BLoRA%E5%BE%AE%E8%B0%83/" title="万相大模型LoRA微调">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">万相大模型LoRA微调</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/12/09/%E5%8F%98%E5%88%86%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8(VAE)/" title="变分自编码器(VAE)">
-                        <span class="hidden-mobile">变分自编码器(VAE)</span>
+                      <a href="/2024/12/09/3D%E5%8F%98%E5%88%86%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8(3D%20VAE)/" title="3D变分自编码器(3D VAE)">
+                        <span class="hidden-mobile">3D变分自编码器(3D VAE)</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -462,12 +503,6 @@ src="http://www.bimant.com/blog/content/images/2023/07/image-10.png" srcset="/im
 
 
   
-
-
-  
-  
-
-
 
 
 
@@ -685,49 +720,6 @@ src="http://www.bimant.com/blog/content/images/2023/07/image-10.png" srcset="/im
 
 
   <script>Fluid.plugins.imageCaption();</script>
-
-  
-      <script>
-        if (!window.MathJax) {
-          window.MathJax = {
-            tex    : {
-              inlineMath: { '[+]': [['$', '$']] }
-            },
-            loader : {
-              load: ['ui/lazy']
-            },
-            options: {
-              renderActions: {
-                insertedScript: [200, () => {
-                  document.querySelectorAll('mjx-container').forEach(node => {
-                    let target = node.parentNode;
-                    if (target.nodeName.toLowerCase() === 'li') {
-                      target.parentNode.classList.add('has-jax');
-                    }
-                  });
-                }, '', false]
-              }
-            }
-          };
-        } else {
-          MathJax.startup.document.state(0);
-          MathJax.texReset();
-          MathJax.typeset();
-          MathJax.typesetPromise();
-        }
-
-        Fluid.events.registerRefreshCallback(function() {
-          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
-            MathJax.startup.document.state(0);
-            MathJax.texReset();
-            MathJax.typeset();
-            MathJax.typesetPromise();
-          }
-        });
-      </script>
-    
-
-  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 
